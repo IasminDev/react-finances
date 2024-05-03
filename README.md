@@ -10,3 +10,9 @@ in settings.json include
 
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
+npm i react-router-dom @types/react-router-dom -D
+npm i axios @types/axios -D
+npm i lucide-react
+
+add project in vercel with git
+
