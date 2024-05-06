@@ -15,4 +15,4 @@ npm i axios @types/axios -D
 npm i lucide-react
 
 add project in vercel with git
-
+npm install -D tailwind-merge @tailwindcss/forms 
