@@ -1,5 +1,5 @@
 import { Header } from "./components/header/header";
-import { Input } from "./components/html/input";
+import { Input } from "./components/ui/input";
 
 export function Home() {
   return (
@@ -8,7 +8,11 @@ export function Home() {
       <div className='flex items-center justify-between px-5 gap-5'>
         <h2 className='roboto-medium'>Home</h2>
         <div className='flex items-center'>
-        <Input/>
+        <Input
+            type='text'
+            id='search'
+            placeholder='Search...'
+        />
         </div>
       </div>
     </div>

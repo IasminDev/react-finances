@@ -6,7 +6,7 @@ interface NavLinkProps extends ComponentProps<'a'>{}
 export function NavLink(props: NavLinkProps) {
     return(
         <a {...props}
-            className={twMerge('font-medium text-sm text-slate-400 hover:text-slate-300', props.className)}>
+            className={twMerge('text-base text-slate-300 hover:text-slate-200 cursor-pointer', props.className)}>
         </a>
     )    
 }
