@@ -5,7 +5,7 @@ import { useState } from 'react'
 export function BurgerMenu(){
     const [transparent, setTransparent] = useState(true)
     return(
-        <div className='flex'>
+        <div className='flex w-64'>
             <AlignJustifyIcon onClick={() => setTransparent(!transparent)} className='opacity-80 hover:opacity-100 cursor-pointer'/>
             <Menu transparent={transparent}/>
         </div>

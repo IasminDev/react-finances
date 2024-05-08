@@ -13,7 +13,7 @@ export function LogInAccount(){
             <div className='flex flex-col p-2 gap-2'>
                 <label id='email'>Email</label>
                 <Input
-                type='text'
+                type='email'
                 id='email'
                 placeholder='Email...'
                 />

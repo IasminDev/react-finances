@@ -7,6 +7,7 @@ import { CreateAccount } from './create-account'
 import { LogInAccount } from './log-in-account'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
+import { Premium } from './premium'
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path:"/log-in-account",
     element: <LogInAccount />
+  },
+  {
+    path:"/premium-plan",
+    element: <Premium />
   }
 ])
 

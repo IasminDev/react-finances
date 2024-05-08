@@ -1,12 +1,11 @@
 npm install
 
 in settings.json include
-{"emmet.includeLanguages":{
-    "javascript": "javascriptreact"
-},
-"emmet.syntaxProfiles":{
-    "javascript": "jsx"
-},}
+{
+    "emmet.triggerExpansionOnTab": true,
+    "emmet.showSuggestionsAsSnippets": true,
+    "editor.snippetSuggestions": "top",
+}
 
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
