@@ -1,0 +1,7 @@
+{
+    "routes": [
+      { "src": "/", "dest": "/" },
+      { "src": "/create-account", "dest": "/" },
+      { "src": "/log-in-account", "dest": "/" }
+    ]
+}
