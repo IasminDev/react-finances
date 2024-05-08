@@ -1,5 +1,5 @@
 import { Notifications } from '../popout/notifications'
-import { Bell, BellDot } from 'lucide-react'
+import { Bell } from 'lucide-react'
 import { useState } from 'react'
 
 export function Notification(){
