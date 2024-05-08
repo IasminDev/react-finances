@@ -15,7 +15,7 @@ export function Account({transparent} : AccountProps){
             <div className='flex flex-col p-2 gap-2 leading-8'>
                 <MenuSection>Your Account</MenuSection>
                 <NavLink href='/log-in-account'>Log In</NavLink>
-                <NavLink href='/'>Settings</NavLink>
+                <NavLink href='/account-settings'>Settings</NavLink>
                 <NavLink href='/premium-plan'>Premium</NavLink>
                 <NavLink href='/'>Sign Out</NavLink>
             </div>
