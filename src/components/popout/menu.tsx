@@ -20,8 +20,8 @@ export function Menu({transparent} : MenuProps){
                 <NavLink href='/financial-goals'>Financial Goals</NavLink>
 
                 <MenuSection>Expenses</MenuSection>
-                <NavLink href='/'>Debt</NavLink>
-                <NavLink href='/'>Variable Expenses</NavLink>
+                <NavLink href='/debt'>Debt</NavLink>
+                <NavLink href='/variable-expenses'>Variable Expenses</NavLink>
                 <NavLink href='/'>Fixed Expenses</NavLink>
 
                 <MenuSection>Income</MenuSection>

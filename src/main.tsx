@@ -12,6 +12,9 @@ import { AccountSettings } from './account-settings'
 import { Budget } from './budget'
 import { Savings } from './savings'
 import { FinancialGoals } from './financial-goals'
+import { Debt } from './debt'
+import { Variable } from 'lucide-react'
+import { VariableExpenses } from './variable-expenses'
 
 const router = createBrowserRouter([
   {
@@ -41,6 +44,14 @@ const router = createBrowserRouter([
   {
     path:"/financial-goals",
     element: <FinancialGoals />
+  },
+  {
+    path:"/debt",
+    element: <Debt />
+  },
+  {
+    path:"/variable-expenses",
+    element: <VariableExpenses />
   },
   {
     path:"/premium-plan",
