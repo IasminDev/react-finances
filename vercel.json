@@ -2,6 +2,8 @@
     "routes": [
       { "src": "/", "dest": "/" },
       { "src": "/create-account", "dest": "/" },
-      { "src": "/log-in-account", "dest": "/" }
+      { "src": "/log-in-account", "dest": "/" },
+      { "src": "/account-settings", "dest": "/" },
+      { "src": "/premium-plan", "dest": "/" }
     ]
 }
