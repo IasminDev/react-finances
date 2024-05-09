@@ -15,9 +15,9 @@ export function Menu({transparent} : MenuProps){
             <div className='flex flex-col p-2 gap-2 leading-8'>
 
                 <MenuSection>Financial Planning</MenuSection>
-                <NavLink href='/'>Budget</NavLink>
-                <NavLink href='/'>Savings</NavLink>                
-                <NavLink href='/'>Financial Goals</NavLink>
+                <NavLink href='/budget'>Budget</NavLink>
+                <NavLink href='/savings'>Savings</NavLink>                
+                <NavLink href='/financial-goals'>Financial Goals</NavLink>
 
                 <MenuSection>Expenses</MenuSection>
                 <NavLink href='/'>Debt</NavLink>

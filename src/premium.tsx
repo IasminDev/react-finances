@@ -7,7 +7,7 @@ export function Premium(){
             <Header/>
             <div className='flex flex-col items-center py-5 gap-5'>
                 <h2 className='text-2xl'>Premium Plan</h2>
-                <div className='flex items-center gap-5 py-5'>
+                <div className='flex flex-wrap items-center gap-5 p-5'>
                     <Card
                     option={'Free'}
                     srcImg={'../src/assets/logo.png'}
