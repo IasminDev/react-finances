@@ -5,10 +5,12 @@ import { Login } from './login'
 
 export function Header(){
     return(
-        <div className='w-full flex flex-wrap justify-between p-5 items-center border-b border-slate-400 relative'>
+        <div className='w-full grid grid-cols-3 py-5 justify-around items-center border-b border-slate-400 relative'>
             <BurgerMenu/>
-            <Logo/>
-            <div className='flex items-center justify-end w-64 gap-4'>
+            <div className='flex items-center justify-center'>
+                <Logo/>
+            </div>
+            <div className='flex items-center justify-end gap-1 px-5'>
                 <Notification/>
                 <Login/>
             </div>
