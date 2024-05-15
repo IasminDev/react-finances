@@ -5,8 +5,8 @@ import { useState } from 'react'
 export function Notification(){
     const [transparent, setTransparent] = useState(true)
     return(
-        <div>
-            <Bell onClick={() => setTransparent(!transparent)} className='w-4 opacity-80 hover:opacity-100 cursor-pointer'/>
+        <div onClick={() => setTransparent(!transparent)} className='cursor-pointer'>
+            <Bell className='w-4 opacity-80 hover:opacity-100'/>
             <Notifications transparent={transparent}/>
         </div>
     )
