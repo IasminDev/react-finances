@@ -4,10 +4,10 @@
         "option": "Basic",
         "srcImg":"../src/assets/price1.svg",
         "resources":[
-            "resource 1",
-            "resource 2",
-            "resource 3",
-            "resource 4"
+            "Savings",
+            "Expenses",
+            "Debt",
+            "Financial Goals"
         ]
     },
     {
@@ -15,10 +15,10 @@
         "option": "Medium",
         "srcImg":"../src/assets/price2.svg",
         "resources":[
-            "resource 5",
-            "resource 6",
-            "resource 7",
-            "resource 8"
+            "Budget",
+            "Income",
+            "Disposable Income",
+            "Variable and Fixed Expenses"
         ]
     },
     {
@@ -26,10 +26,9 @@
         "option": "Expert",
         "srcImg":"../src/assets/price3.svg",
         "resources":[
-            "resource 9",
-            "resource 10",
-            "resource 11",
-            "resource 12"
+            "Exchange Rate",
+            "Personal Trader",
+            "Home Broker"
         ]
     }
 ]
