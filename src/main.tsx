@@ -1,20 +1,27 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import { Home } from './home'
-import './index.css'
-import { CreateAccount } from './create-account'
-import { LogInAccount } from './log-in-account'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
-import { Premium } from './premium'
-import { AccountSettings } from './account-settings'
-import { Budget } from './budget'
-import { Savings } from './savings'
-import { FinancialGoals } from './financial-goals'
-import { Debt } from './debt'
-import { Variable } from 'lucide-react'
-import { VariableExpenses } from './variable-expenses'
+
+import './index.css'
+import { Home } from './pages/home'
+import { CreateAccount } from './pages/account/create-account'
+import { LogInAccount } from './pages/account/log-in-account'
+import { AccountSettings } from './pages/account/account-settings'         
+import { Premium } from './pages/account/premium'
+import { Budget } from './pages/financial-planning/budget'
+import { Savings } from './pages/financial-planning/savings'
+import { FinancialGoals } from './pages/financial-planning/financial-goals'
+import { Debt } from './pages/expenses/debt'
+import { VariableExpenses } from './pages/expenses/variable-expenses'
+import { FixedExpenses } from './pages/expenses/fixed-expenses'
+import { Income } from './pages/income/income'
+import { DisposableIncome } from './pages/income/disposable-income'
+import { ExchangeRate } from './pages/helping-you/exchange-rate'
+import { PersonalTrader } from './pages/helping-you/personal-trader'
+import { HomeBroker } from './pages/helping-you/home-broker'
+import { ContactUs } from './pages/helping-you/contact-us'
 
 const router = createBrowserRouter([
   {
@@ -54,8 +61,36 @@ const router = createBrowserRouter([
     element: <VariableExpenses />
   },
   {
+    path:"/fixed-expenses",
+    element: <FixedExpenses />
+  },
+  {
+    path:"/income",
+    element: <Income />
+  },
+  {
+    path:"/disposable-income",
+    element: <DisposableIncome />
+  },
+  {
+    path:"/exchange-rate",
+    element: <ExchangeRate />
+  },
+  {
+    path:"/personal-trader",
+    element: <PersonalTrader />
+  },
+  {
+    path:"/home-broker",
+    element: <HomeBroker />
+  },
+  {
     path:"/premium-plan",
     element: <Premium />
+  },
+  {
+    path:"/contact-us",
+    element: <ContactUs />
   }
 ])
 
