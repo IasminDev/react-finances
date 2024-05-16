@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface CardProps {
     id: number;
@@ -10,7 +10,9 @@ interface CardProps {
 
 export function Card({id, option, srcImg, resources}:CardProps){
     const [plan, setPlan] = useState(0)
+    useEffect(() => {
     setPlan(3)
+    })
     return(
         <div className='flex flex-col w-72 h-96 bg-slate-400/10 border border-white/10 rounded-md items-center gap-3 p-2'>
             <div key={id} className='flex flex-col w-64 border-b border-slate-400 items-center gap-3 p-1'>
