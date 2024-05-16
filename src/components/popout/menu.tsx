@@ -23,18 +23,18 @@ export function Menu({transparent} : MenuProps){
                     <MenuSection>Expenses</MenuSection>
                     <NavLink href='/debt'>Debt</NavLink>
                     <NavLink href='/variable-expenses'>Variable Expenses</NavLink>
-                    <NavLink href='/'>Fixed Expenses</NavLink>
+                    <NavLink href='/fixed-expenses'>Fixed Expenses</NavLink>
 
                     <MenuSection>Income</MenuSection>
-                    <NavLink href='/'>Income</NavLink>
-                    <NavLink href='/'>Disposable Income</NavLink>
+                    <NavLink href='/income'>Income</NavLink>
+                    <NavLink href='/disposable-income'>Disposable Income</NavLink>
 
                     <MenuSection>Helping You</MenuSection>
-                    <NavLink href='/'>Exchange Rate</NavLink>
-                    <NavLink href='/'>Personal Trader</NavLink>
-                    <NavLink href='/'>Home Broker</NavLink>
+                    <NavLink href='/exchange-rate'>Exchange Rate</NavLink>
+                    <NavLink href='/personal-trader'>Personal Trader</NavLink>
+                    <NavLink href='/home-broker'>Home Broker</NavLink>
                     <NavLink href='/premium-plan'>Be Premium</NavLink>
-                    <NavLink href='/'>Contact Us</NavLink>
+                    <NavLink href='/contact-us'>Contact Us</NavLink>
                 </div>
             </div>
         </div>
