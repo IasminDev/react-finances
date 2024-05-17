@@ -16,23 +16,25 @@ export function Menu({transparent} : MenuProps){
                 <div className='flex flex-col p-2 gap-2 leading-8'>
 
                     <MenuSection>Financial Planning</MenuSection>
-                    <NavLink href='/budget'>Budget</NavLink>
-                    <NavLink href='/savings'>Savings</NavLink>                
+                    {/* <NavLink href='/budget'>Budget</NavLink> */}
                     <NavLink href='/financial-goals'>Financial Goals</NavLink>
+
+                    <MenuSection>Savings</MenuSection>
+                    <NavLink href='/savings'>Revenue</NavLink>                
 
                     <MenuSection>Expenses</MenuSection>
                     <NavLink href='/debt'>Debt</NavLink>
-                    <NavLink href='/variable-expenses'>Variable Expenses</NavLink>
+                    {/* <NavLink href='/variable-expenses'>Variable Expenses</NavLink>
                     <NavLink href='/fixed-expenses'>Fixed Expenses</NavLink>
 
                     <MenuSection>Income</MenuSection>
                     <NavLink href='/income'>Income</NavLink>
-                    <NavLink href='/disposable-income'>Disposable Income</NavLink>
+                    <NavLink href='/disposable-income'>Disposable Income</NavLink> */}
 
                     <MenuSection>Helping You</MenuSection>
-                    <NavLink href='/exchange-rate'>Exchange Rate</NavLink>
+                    {/* <NavLink href='/exchange-rate'>Exchange Rate</NavLink>
                     <NavLink href='/personal-trader'>Personal Trader</NavLink>
-                    <NavLink href='/home-broker'>Home Broker</NavLink>
+                    <NavLink href='/home-broker'>Home Broker</NavLink> */}
                     <NavLink href='/premium-plan'>Be Premium</NavLink>
                     <NavLink href='/contact-us'>Contact Us</NavLink>
                 </div>

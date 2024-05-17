@@ -4,8 +4,7 @@
         "option": "Basic",
         "srcImg":"../src/assets/price1.svg",
         "resources":[
-            "Savings",
-            "Expenses",
+            "Revenue",
             "Debt",
             "Financial Goals"
         ]

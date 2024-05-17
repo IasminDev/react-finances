@@ -12,7 +12,7 @@ interface CardProps {
 export function Card({id, option, srcImg, resources}:CardProps){
     const [plan, setPlan] = useState(0)
     useEffect(() => {
-    setPlan(3)
+    setPlan(1)
     })
     return(
         <div className='flex flex-col w-72 h-[400px] bg-slate-400/10 border border-white/10 rounded-md items-center gap-3 p-2'>
