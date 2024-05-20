@@ -1,5 +1,5 @@
 import { EyeIcon } from 'lucide-react'
-import { ComponentProps, useEffect, useState } from 'react'
+import { ComponentProps, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 interface InputProps extends ComponentProps<'input'>{}
