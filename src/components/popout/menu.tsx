@@ -2,6 +2,7 @@ import { NavLink } from "../ui/nav-link"
 import { ComponentProps } from "react"
 import { twMerge } from 'tailwind-merge'
 import { MenuSection } from "../ui/menu-section"
+import { CoinsIcon, GemIcon, MonitorSmartphoneIcon, TrendingDownIcon, TrendingUpIcon } from "lucide-react"
 
 interface MenuProps extends ComponentProps<'div'>{
     transparent?:boolean
@@ -16,14 +17,14 @@ export function Menu({transparent} : MenuProps){
                 <div className='flex flex-col p-2 gap-2 leading-8'>
 
                     <MenuSection>Financial Planning</MenuSection>
-                    {/* <NavLink href='/budget'>Budget</NavLink> */}
-                    <NavLink href='/financial-goals'>Financial Goals</NavLink>
+                    {/* <NavLink href='/budget'>Budget</NavLink> */}                    
+                    <NavLink href='/financial-goals'><CoinsIcon className="h-4 w-4"/> Financial Goals</NavLink>
 
                     <MenuSection>Savings</MenuSection>
-                    <NavLink href='/savings'>Revenue</NavLink>                
+                    <NavLink href='/savings'> <TrendingUpIcon className="h-4 w-4"/>Revenue</NavLink>  
 
                     <MenuSection>Expenses</MenuSection>
-                    <NavLink href='/debt'>Debt</NavLink>
+                    <NavLink href='/debt'><TrendingDownIcon className="h-4 w-4"/>Debt</NavLink>
                     {/* <NavLink href='/variable-expenses'>Variable Expenses</NavLink>
                     <NavLink href='/fixed-expenses'>Fixed Expenses</NavLink>
 
@@ -35,8 +36,8 @@ export function Menu({transparent} : MenuProps){
                     {/* <NavLink href='/exchange-rate'>Exchange Rate</NavLink>
                     <NavLink href='/personal-trader'>Personal Trader</NavLink>
                     <NavLink href='/home-broker'>Home Broker</NavLink> */}
-                    <NavLink href='/premium-plan'>Be Premium</NavLink>
-                    <NavLink href='/contact-us'>Contact Us</NavLink>
+                    <NavLink href='/premium-plan'><GemIcon className="h-4 w-4"/>Be Premium</NavLink>
+                    <NavLink href='/contact-us'><MonitorSmartphoneIcon className="h-4 w-4"/> Contact Us</NavLink>
                 </div>
             </div>
         </div>

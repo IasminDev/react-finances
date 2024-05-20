@@ -22,11 +22,15 @@ import { ExchangeRate } from './pages/helping-you/exchange-rate'
 import { PersonalTrader } from './pages/helping-you/personal-trader'
 import { HomeBroker } from './pages/helping-you/home-broker'
 import { ContactUs } from './pages/helping-you/contact-us'
+import { Dashboard } from './pages/dashboard'
 
 const router = createBrowserRouter([
   {
     path:"/",
     element: <Home />
+  },{
+    path:"/dashboard",
+    element: <Dashboard />
   },
   {
     path:"/create-account",

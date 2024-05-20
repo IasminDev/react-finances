@@ -1,6 +1,7 @@
 import { Header } from "../../components/header/header";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
+import { InputPassword } from "../../components/ui/input-password";
 import { NavLink } from "../../components/ui/nav-link";
 
 export function LogInAccount(){
@@ -22,17 +23,16 @@ export function LogInAccount(){
             </div>
             <div className='flex flex-col p-2 gap-2'>
                 <label id='Password'>Password</label>
-                <Input
-                type='password'
+                <InputPassword
                 id='password'
                 placeholder='Password...'
                 />
             </div>
             <div className='flex flex-col p-2 gap-2'>
-                <Button>Log in</Button>
+                <a href="/dashboard"><Button>Log in</Button></a>
             </div>
         </div>
-        <h3 className='text-base'> Don't have account? <NavLink href='/create-account'>Create here.</NavLink> </h3>
+        <h3 className='flex text-base items-center gap-1'> Don't have account? <NavLink href='/create-account'>Create here.</NavLink> </h3>
       </div>
     </div>
     )

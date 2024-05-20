@@ -2,6 +2,7 @@ import { ComponentProps } from "react"
 import { twMerge } from 'tailwind-merge'
 import { NavLink } from "../ui/nav-link"
 import { MenuSection } from "../ui/menu-section"
+import { LogInIcon, LogOutIcon, SettingsIcon } from "lucide-react"
 
 interface AccountProps extends ComponentProps<'div'>{
     transparent?:boolean
@@ -19,10 +20,9 @@ export function Account({transparent} : AccountProps){
             
                 <div className='flex flex-col p-2 gap-2 leading-8'>
                     <MenuSection>Your Account</MenuSection>
-                    <NavLink href='/log-in-account'>Log In</NavLink>
-                    <NavLink href='/account-settings'>Settings</NavLink>
-                    <NavLink href='/premium-plan'>Premium</NavLink>
-                    <NavLink href='/'>Sign Out</NavLink>
+                    <NavLink href='/log-in-account'><LogInIcon className="h-4 w-4"/>Log In</NavLink>
+                    <NavLink href='/account-settings'><SettingsIcon className="h-4 w-4"/>Settings</NavLink>
+                    <NavLink href='/'><LogOutIcon className="h-4 w-4"/>Sign Out</NavLink>
                 </div>
             </div>
         </div>
