@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      // backgroundImage: {
+      //   'header-home': "url('/img/hero-pattern.svg')",
+      // }
+    },
   },
   plugins: [],
 }
