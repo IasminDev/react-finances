@@ -4,11 +4,12 @@ import { twMerge } from 'tailwind-merge';
 
 interface InputProps extends React.ComponentProps<'input'> {}
 
-export function InputPassword({...props}: InputProps) {
-
+export function InputConfirmPassword({...props}: InputProps) {
+    
     const [inputType, setInputType] = useState('password');
     const [isText, setIsText] = useState(false);
 
+   
     return (
         <div>
             <div className="py-3 px-1.5 w-72 border border-slate-400/10 rounded-md flex items-center gap-3 mb-2">
@@ -28,7 +29,6 @@ export function InputPassword({...props}: InputProps) {
                     {isText ? <EyeIcon className='w-4 h-4 text-slate-400' /> : <EyeOffIcon className='w-4 h-4 text-slate-400' />}
                 </div>
             </div>
-            
         </div>
     );
 }
