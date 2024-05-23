@@ -1,6 +1,6 @@
 import { Header } from "../components/header/header";
 import financesIcon from '/src/assets/logo.svg'
-import headerBackground from '/src/assets/header-bg.svg'
+// import headerBackground from '/src/assets/header-bg.svg'
 
 export function Home() {
   return (
