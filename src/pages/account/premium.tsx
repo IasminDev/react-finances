@@ -6,7 +6,7 @@ export function Premium(){
     return(
         <div className='flex flex-col items-center gap-5'>        
             <Header/>
-            <div className='flex flex-col items-center py-5 gap-5'>
+            <div className='flex flex-col items-center py-5 gap-5 mt-20'>
                 <h2 className='text-2xl'>Premium Plans</h2>
                 <div className='flex flex-wrap items-center justify-center gap-5 p-5'>
                     {Data.map((item) => {

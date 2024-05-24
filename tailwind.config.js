@@ -6,9 +6,9 @@ export default {
   ],
   theme: {
     extend: {
-      // backgroundImage: {
-      //   'header-home': "url('/img/hero-pattern.svg')",
-      // }
+      backgroundImage: {
+        'header-home': "url('/src/assets/header-bg.svg')",
+      }
     },
   },
   plugins: [],

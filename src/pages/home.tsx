@@ -1,13 +1,12 @@
 import { Header } from "../components/header/header";
 import financesIcon from '/src/assets/logo.svg'
-// import headerBackground from '/src/assets/header-bg.svg'
 
 export function Home() {
   return (
-    <div className='flex flex-col gap-5'>
+    <div className='flex flex-col'>
       <Header/>
-      <div className='flex flex-col flex-wrap items-center px-5 gap-5 justify-center'>
-        <header className='h-full flex flex-wrap gap-10 items-center justify-center bg:[({headerBackground})]'>
+      <div className='flex flex-col flex-wrap m-0 items-center justify-center mt-20'>
+        <header className='h-full w-screen flex flex-wrap gap-10 items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500'>
           <div className='items-center justify-center flex flex-col gap-5'> 
             <img className='w-60 h-60' src={financesIcon} alt="Logo" />
             <h1 className='text-4xl roboto-bold text-center'>Aurea</h1>
