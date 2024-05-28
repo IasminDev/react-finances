@@ -1,23 +1,29 @@
-import { useState } from 'react';
+import { ComponentProps, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+interface Option {
+  value: string;
+  label: string;
+  color: string;
+}
 
 interface DropDownProps extends ComponentProps<'select'> {}
 
 export function DropDown({...props}: DropDownProps) {
-  const [value, setValue] = useState("");
-  const [open, setOpen] = useState(false);
-  const [focusedOption, setFocusedOption] = useState(null);
+  const [value, setValue] = useState<string>('');
+  const [open, setOpen] = useState<boolean>(false);
+  const [focusedOption, setFocusedOption] = useState<number | null>(null);
 
   const handleOpenOptions = () => {
     setOpen(!open);
   };
 
-  const handleOptionClick = (optionValue) => {
+  const handleOptionClick = (optionValue: string) => {
     setValue(optionValue);
     setOpen(false);
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === 'ArrowDown') {
       setFocusedOption((prevFocusedOption) => prevFocusedOption + 1);
     } else if (event.key === 'ArrowUp') {
@@ -27,11 +33,11 @@ export function DropDown({...props}: DropDownProps) {
     }
   };
 
-  const options = [
+  const options: Option[] = [
     { value: '1', label: 'Excellent', color: 'green-500' },
     { value: '2', label: 'Good', color: 'blue-500' },
     { value: '3', label: 'Fair', color: 'yellow-500' },
-    { value: '4', label: 'Poor', color: 'ed-500' },
+    { value: '4', label: 'Poor', color: 'red-500' },
   ];
 
   return (
@@ -39,14 +45,14 @@ export function DropDown({...props}: DropDownProps) {
       <button
         className={twMerge(
           'block w-72 h-12 py-3 px-1.5 text-sm text-left border border-slate-400/10 rounded-md bg-slate-900 outline-none focus:ring-0 focus:border-slate-400/50 placeholder-slate-400',
-          open? 'active' : ''
+          open ? 'active' : ''
         )}
         aria-expanded={open}
         aria-haspopup="true"
         onClick={handleOpenOptions}
         onKeyDown={handleKeyDown}
       >
-        {value? (
+        {value ? (
           <span>
             <span
               className={`w-4 h-4 mr-1 ml-1 inline-block text-${options.find((option) => option.value === value).color}`}
@@ -71,7 +77,7 @@ export function DropDown({...props}: DropDownProps) {
               key={option.value}
               className={twMerge(
                 'py-3 px-1.5 cursor-pointer',
-                focusedOption === index? 'bg-slate-800' : ''
+                focusedOption === index ? 'bg-slate-800' : ''
               )}
               role="option"
               aria-selected={focusedOption === index}
