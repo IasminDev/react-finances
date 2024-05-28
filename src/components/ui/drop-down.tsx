@@ -1,4 +1,4 @@
-import { ComponentProps, useState } from 'react';
+import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface Option {
@@ -7,12 +7,10 @@ interface Option {
   color: string;
 }
 
-interface DropDownProps extends ComponentProps<'select'> {}
-
-export function DropDown({...props}: DropDownProps) {
+export function DropDown() {
   const [value, setValue] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
-  const [focusedOption, setFocusedOption] = useState<number | null>(null);
+  const [focusedOption, setFocusedOption] = useState<number>(0);
 
   const handleOpenOptions = () => {
     setOpen(!open);
@@ -29,7 +27,10 @@ export function DropDown({...props}: DropDownProps) {
     } else if (event.key === 'ArrowUp') {
       setFocusedOption((prevFocusedOption) => prevFocusedOption - 1);
     } else if (event.key === 'Enter') {
-      handleOptionClick(focusedOption);
+      const selectedOption = options[focusedOption];
+      if (selectedOption) {
+        handleOptionClick(selectedOption.value);
+      }
     }
   };
 
@@ -55,12 +56,12 @@ export function DropDown({...props}: DropDownProps) {
         {value ? (
           <span>
             <span
-              className={`w-4 h-4 mr-1 ml-1 inline-block text-${options.find((option) => option.value === value).color}`}
+              className={`w-4 h-4 mr-1 ml-1 inline-block text-${options.find((option) => option.value === value)?.color ?? ''}`}
               aria-hidden="true"
             >
               &#x25CF;
             </span>
-            {options.find((option) => option.value === value).label}
+            {options.find((option) => option.value === value)?.label ?? ''}
           </span>
         ) : (
           'Select'
@@ -70,7 +71,7 @@ export function DropDown({...props}: DropDownProps) {
         <ul
           className="absolute w-full bg-slate-900 border border-slate-400/10 rounded-md shadow-md"
           role="listbox"
-          aria-activedescendant={focusedOption}
+          aria-activedescendant={focusedOption.toString()}
         >
           {options.map((option, index) => (
             <li
