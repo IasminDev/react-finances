@@ -2,7 +2,7 @@
     {
         "id": 1,
         "option": "Basic",
-        "srcImg":"../src/assets/price1.svg",
+        "srcImg":"https://raw.githubusercontent.com/IasminDev/react-finances/d75b3fda3aa057a760deb4e5c4af2b395b241850/src/assets/price1.svg",
         "resources":[
             "Revenue",
             "Debt",
@@ -12,7 +12,7 @@
     {
         "id": 2,
         "option": "Medium",
-        "srcImg":"../src/assets/price2.svg",
+        "srcImg":"https://raw.githubusercontent.com/IasminDev/react-finances/d75b3fda3aa057a760deb4e5c4af2b395b241850/src/assets/price2.svg",
         "resources":[
             "Budget",
             "Income",
@@ -23,7 +23,7 @@
     {
         "id": 3,
         "option": "Expert",
-        "srcImg":"../src/assets/price3.svg",
+        "srcImg":"https://raw.githubusercontent.com/IasminDev/react-finances/d75b3fda3aa057a760deb4e5c4af2b395b241850/src/assets/price3.svg",
         "resources":[
             "Exchange Rate",
             "Personal Trader",

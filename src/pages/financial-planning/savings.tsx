@@ -1,5 +1,5 @@
 import { Header } from "../../components/header/header";
-
+import { Inputs } from "../../components/utils/inputs";
 
 export function Savings(){
     return(
@@ -8,6 +8,7 @@ export function Savings(){
       <div className='flex flex-wrap items-center px-5 gap-5 justify-center sm:justify-between mt-20'>
         <h2 className='roboto-medium text-xl'>Revenue</h2>
       </div>
+      <Inputs/>
     </div>
     )
     

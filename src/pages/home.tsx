@@ -1,22 +1,27 @@
 import { Header } from "../components/header/header";
+import { NavLink } from "../components/ui/nav-link"
 import financesIcon from '/src/assets/logo.svg'
+import headerBg from '/src/assets/header-bg.svg'
 
 export function Home() {
   return (
     <div className='flex flex-col'>
       <Header/>
       <div className='flex flex-col flex-wrap m-0 items-center justify-center mt-20'>
-        <header className='h-full w-screen flex flex-wrap gap-10 items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500'>
-          <div className='items-center justify-center flex flex-col gap-5'> 
-            <img className='w-60 h-60' src={financesIcon} alt="Logo" />
-            <h1 className='text-4xl roboto-bold text-center'>Aurea</h1>
+        <header className='h-full w-screen flex flex-wrap gap-10 items-center justify-center'>
+          <img className='relative z-[-1] opacity-20' src={headerBg} alt='home-background'></img>
+          <div className='absolute flex flex-wrap z-[0] justify-center items-center flex-col sm:flex-row sm:gap-10'>
+              <img className='w-20 h-20 sm:h-60 sm:w-60' src={financesIcon} alt="Logo" />
+            <p className='text-lg p-2 text-center items-center sm:text-justify sm:w-96'>
+              Welcome to <strong>Aurea</strong>, the financial management system that transforms how you 
+              handle your personal finances.
+            </p>
           </div>
-          <p className='w-96 mx-1 text-lg text-justify'>Welcome to <strong>Aurea</strong>, the financial management system that transforms how you handle your personal finances. 
-            In today's fast-paced world, managing your finances efficiently is essential to achieving your goals and ensuring 
-            a healthy financial future. Aurea has been developed with the aim of simplifying this task, offering an intuitive 
-            and powerful platform for total control of your personal finances.</p>
         </header>
         <main>
+              <p>In today's fast-paced world, managing your finances efficiently is essential to achieving your goals and ensuring 
+              a healthy financial future. Aurea has been developed with the aim of simplifying this task, offering an intuitive 
+              and powerful platform for total control of your personal finances.</p>
           <h3>Key Features</h3>
           <h4>1. Expense Tracking:</h4>
           <p>Keep a detailed record of all your financial transactions. With Aurea, you can easily input and categorize your expenses, 
@@ -58,7 +63,7 @@ export function Home() {
             financial future. Subscribe to one of our exclusive plans and start transforming your finances today!</p>
         </main>
         <footer>
-          <p><strong>Try Aurea and discover how simple and efficient it is to manage your finances intelligently.</strong></p>
+          <NavLink href='/create-account'>Try Aurea and discover how simple and efficient it is to manage your finances intelligently.</NavLink>
         </footer>
       </div>
     </div>
