@@ -10,15 +10,14 @@ export function InputPassword({...props}: InputProps) {
     const [isText, setIsText] = useState(false);
 
     return (
-        <div>
-            <div className="py-3 px-1.5 w-72 border border-slate-400/10 rounded-md flex items-center gap-3 mb-2">
+            <div className='w-72 border border-slate-400/10 focus:border-slate-400/50 rounded-md flex items-center'>
                 <input
                     {...props}
                     required
                     type={inputType}
                     maxLength={8}
                     className={twMerge(
-                        'bg-transparent flex-1 outline-none h-auto border-0 p-0 text-sm focus:ring-0'
+                        'py-3 px-1.5 bg-transparent rounded-md placeholder-slate-400 flex-1 outline-none border-0 text-sm'
                     )}
                 />
                 <div className="m-1" onClick={() => {
@@ -28,7 +27,5 @@ export function InputPassword({...props}: InputProps) {
                     {isText ? <EyeIcon className='w-4 h-4 text-slate-400' /> : <EyeOffIcon className='w-4 h-4 text-slate-400' />}
                 </div>
             </div>
-            
-        </div>
-    );
+    )
 }
