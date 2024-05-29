@@ -35,9 +35,9 @@ export function DropDown() {
   };
 
   const options: Option[] = [
-    { value: '1', label: 'Excellent', color: 'green-500' },
-    { value: '2', label: 'Good', color: 'blue-500' },
-    { value: '3', label: 'Fair', color: 'yellow-500' },
+    { value: '1', label: 'Excellent', color: '#22c55e' },
+    { value: '2', label: 'Good', color: '#3b82f6' },
+    { value: '3', label: 'Fair', color: '#eab308' },
     { value: '4', label: 'Poor', color: 'red-500' },
   ];
 
