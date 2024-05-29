@@ -35,10 +35,10 @@ export function DropDown() {
   };
 
   const options: Option[] = [
-    { value: '1', label: 'Excellent', color: '#22c55e' },
-    { value: '2', label: 'Good', color: '#3b82f6' },
-    { value: '3', label: 'Fair', color: '#eab308' },
-    { value: '4', label: 'Poor', color: 'red-500' },
+    { value: '1', label: 'Excellent', color: 'text-green-500' },
+    { value: '2', label: 'Good', color: 'text-blue-500' },
+    { value: '3', label: 'Fair', color: 'text-yellow-500' },
+    { value: '4', label: 'Poor', color: 'text-red-500' },
   ];
 
   return (
@@ -86,7 +86,7 @@ export function DropDown() {
               onMouseOver={() => setFocusedOption(index)}
             >
               <div
-                className={`w-4 h-4 mr-2 inline-block text-${option.color}`}
+                className={`w-4 h-4 mr-2 inline-block ${option.color}`}
                 aria-hidden="true"
               >
                 &#x25CF;
