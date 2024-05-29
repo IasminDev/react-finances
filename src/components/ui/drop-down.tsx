@@ -54,15 +54,15 @@ export function DropDown() {
         onKeyDown={handleKeyDown}
       >
         {value ? (
-          <span>
-            <span
+          <div>
+            <div
               className={`w-4 h-4 mr-1 ml-1 inline-block text-${options.find((option) => option.value === value)?.color ?? ''}`}
               aria-hidden="true"
             >
               &#x25CF;
-            </span>
+            </div>
             {options.find((option) => option.value === value)?.label ?? ''}
-          </span>
+          </div>
         ) : (
           'Select'
         )}
@@ -85,12 +85,12 @@ export function DropDown() {
               onClick={() => handleOptionClick(option.value)}
               onMouseOver={() => setFocusedOption(index)}
             >
-              <span
+              <div
                 className={`w-4 h-4 mr-2 inline-block text-${option.color}`}
                 aria-hidden="true"
               >
                 &#x25CF;
-              </span>
+              </div>
               {option.label}
             </li>
           ))}
