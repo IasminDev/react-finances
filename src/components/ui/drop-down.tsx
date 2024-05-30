@@ -56,7 +56,7 @@ export function DropDown() {
         {value ? (
           <div>
             <div
-              className={`w-4 h-4 mr-1 ml-1 inline-block text-${options.find((option) => option.value === value)?.color ?? ''}`}
+              className={`w-4 h-4 mr-1 ml-1 inline-block ${options.find((option) => option.value === value)?.color ?? ''}`}
               aria-hidden="true"
             >
               &#x25CF;

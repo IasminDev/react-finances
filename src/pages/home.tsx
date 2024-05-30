@@ -2,38 +2,64 @@ import { Header } from "../components/header/header";
 import { NavLink } from "../components/ui/nav-link"
 import financesIcon from '/src/assets/logo.svg'
 import headerBg from '/src/assets/header-bg.svg'
+import { BarChart4Icon, CoinsIcon, ShuffleIcon } from "lucide-react";
+import { Button } from "../components/ui/button";
 
 export function Home() {
   return (
     <div className='flex flex-col'>
       <Header/>
-      <div className='flex flex-col flex-wrap m-0 items-center justify-center mt-20'>
-        <header className='h-full w-screen flex flex-wrap gap-10 items-center justify-center'>
-          <img className='relative z-[-1] opacity-20' src={headerBg} alt='home-background'></img>
+      <div className='flex flex-col flex-wrap items-center justify-center'>
+        <header className='w-screen h-screen flex flex-wrap items-center justify-center'>
+          <img className='relative z-[-1] opacity-20 -translate-y-44' src={headerBg} alt='home-background'></img>
           <div className='absolute flex flex-wrap z-[0] justify-center items-center flex-col sm:flex-row sm:gap-10'>
               <img className='w-20 h-20 sm:h-60 sm:w-60' src={financesIcon} alt="Logo" />
-            <p className='text-lg p-2 text-center items-center sm:text-justify sm:w-96'>
-              Welcome to <strong>Aurea</strong>, the financial management system that transforms how you 
-              handle your personal finances.
-            </p>
+              <div>
+                <p className='text-lg p-2 text-center items-center sm:text-justify sm:w-96'>
+                  Welcome to <strong>Aurea</strong>, the financial management system that transforms how you 
+                  handle your personal finances.
+                </p>
+                <a href="/log-in-account"><Button className="w-50">Make your log in</Button></a>
+              </div>
           </div>
         </header>
-        <main>
-              <p>In today's fast-paced world, managing your finances efficiently is essential to achieving your goals and ensuring 
-              a healthy financial future. Aurea has been developed with the aim of simplifying this task, offering an intuitive 
-              and powerful platform for total control of your personal finances.</p>
-          <h3>Key Features</h3>
-          <h4>1. Expense Tracking:</h4>
-          <p>Keep a detailed record of all your financial transactions. With Aurea, you can easily input and categorize your expenses, 
-            providing a clear and organized view of where your money is being spent.</p>
-          <h4>2. Financial Goal Setting:</h4>
-          <p>Set personalized financial goals and track your progress. Whether it's saving for a dream trip, buying a new car, or simply 
-            building an emergency fund, Aurea helps you define and achieve your goals with ease.</p>
-          <h4>3. Financial Performance Analysis:</h4>
-          <p>With detailed reports and interactive graphs, Aurea offers a comprehensive analysis of your financial performance. Identify 
-            spending patterns, discover areas where you can save, and make more informed financial decisions.</p>
+        <main className='flex flex-col flex-wrap gap-3'>
+          
+          <p className='text-lg p-2 text-center'>In today's fast-paced world, managing your finances efficiently is essential to achieving your goals and ensuring 
+          a healthy financial future. Aurea has been developed with the aim of simplifying this task, offering an intuitive 
+          and powerful platform for total control of your personal finances.</p>
+      
+          <h3 className=''>Key Features</h3>
+          
+          <section className='flex flex-col sm:flex-row gap-10 justify-center items-center'>
+            <div className='text-center items-center flex flex-col gap-3 max-w-96'>
+              <ShuffleIcon className='w-40 h-40'/>
+              <h4 className=''>Expense Tracking:</h4>
+
+              <p>Keep a detailed record of all your financial transactions. With Aurea, you can easily input and categorize your expenses, 
+                providing a clear and organized view of where your money is being spent.</p>
+            </div>
+
+            <div className='text-center items-center flex flex-col gap-3 max-w-96'>
+              <CoinsIcon className='w-40 h-40'/>
+              <h4 className="">Financial Goal Setting:</h4>
+
+              <p>Set personalized financial goals and track your progress. Whether it's saving for a dream trip, buying a new car, or simply 
+                building an emergency fund, Aurea helps you define and achieve your goals with ease.</p>
+            </div>
+
+            <div className='text-center items-center flex flex-col gap-3 max-w-96'>
+              <BarChart4Icon className='w-40 h-40'/>
+              <h4 className="">Financial Performance Analysis:</h4>
+
+              <p>With detailed reports and interactive graphs, Aurea offers a comprehensive analysis of your financial performance. Identify 
+                spending patterns, discover areas where you can save, and make more informed financial decisions.</p>
+            </div>
+          </section>
+
           <h3>Exclusive Plans</h3>
           <p>For users who want to explore the full potential of Aurea, we offer exclusive plans with advanced features:</p>
+          
           <h4>Basic Plan:</h4>
           <ul>
             <li><strong>Revenue:</strong> Tracking and management of all your income.</li>
