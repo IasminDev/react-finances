@@ -8,7 +8,7 @@ export function LogInAccount(){
     return(
         <div className='flex flex-col gap-5'>
       <Header/>
-      <div className='flex flex-wrap flex-col items-center py-5 gap-5 mt-20'>
+      <div className='flex flex-wrap flex-col items-center py-5 gap-5 mt-24'>
         <h2 className='text-2xl'>Log In Account</h2>
         <div className='flex flex-col p-2 items-center'>
             <div className='flex flex-col p-2 gap-2'>

@@ -30,7 +30,7 @@ export function CreateAccount() {
   return (
     <div className='flex flex-col gap-5'>
       <Header/>
-      <div className='flex flex-col items-center justify-center py-5 gap-5 mt-20'>
+      <div className='flex flex-col items-center justify-center py-5 gap-5 mt-24'>
         <h2 className='text-2xl'>Create new Account</h2>
         <h3 className='flex text-base items-center gap-1'> Already Registered? <NavLink href='/log-in-account'>Log in here.</NavLink> </h3>
         <div className='flex flex-col p-2 items-center'>
