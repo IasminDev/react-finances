@@ -44,10 +44,10 @@ export function ContactUs(){
   }
 
     return(
-        <div className='flex flex-col gap-5'>
+    <div className='flex flex-col h-screen items-center gap-5'>
       <Header/>
-        <section className='flex flex-wrap h-screen items-center justify-center'>
-          <div className='flex flex-wrap px-5 gap-8 h-auto'>
+        <section className='flex flex-wrap h-full items-center justify-center mt-24'>
+          <div className='flex flex-wrap p-5 gap-8 h-auto'>
             <div className='flex flex-col h-auto w-96 bg-slate-800 rounded-md border border-slate-400/10 p-4 gap-4'>
               <h2 className='roboto-medium text-xl'>Contact Us</h2>
               <div className='flex flex-col py-3 px-6'>

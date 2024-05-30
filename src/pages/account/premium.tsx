@@ -4,9 +4,9 @@ import Data from "../../constants/premium-plan.json"
 
 export function Premium(){
     return(
-        <div className='flex flex-col items-center gap-5'>        
+        <div className='flex flex-col h-screen items-center gap-5'>        
             <Header/>
-            <div className='flex flex-col h-screen items-center justify-center gap-5'>
+            <div className='flex flex-wrap h-full items-center justify-center mt-24'>
                 <div className='flex flex-wrap items-center justify-center gap-5 p-5'>
                     {Data.map((item) => {
                         return(

@@ -7,16 +7,16 @@ import { Button } from "../components/ui/button";
 
 export function Home() {
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col w-full'>
       <Header/>
       <div className='flex flex-col flex-wrap items-center justify-center'>
-        <header className='w-screen h-screen flex flex-wrap items-center justify-center'>
-          <img className='relative z-[-1] opacity-20 -translate-y-44' src={headerBg} alt='home-background'></img>
-          <div className='absolute flex flex-wrap z-[0] justify-center items-center flex-col sm:flex-row sm:gap-10'>
+        <header className='h-full flex flex-wrap items-center justify-center'>
+          <img className='m-0 relative z-[-1] opacity-20 ' src={headerBg} alt='home-background'></img>
+          <div className='mt-20 absolute flex flex-wrap z-[0] justify-center items-center flex-col sm:flex-row sm:gap-10'>
               <img className='w-20 h-20 sm:h-60 sm:w-60' src={financesIcon} alt="Logo" />
               <div>
                 <p className='text-lg p-2 text-center items-center sm:text-justify sm:w-96'>
-                  Welcome to <strong>Aurea</strong>, the financial management system that transforms how you 
+                  Welcome to <strong className='text-slate-900'>Aurea</strong>, the financial management system that transforms how you 
                   handle your personal finances.
                 </p>
                 <a href="/log-in-account"><Button className="w-50">Make your log in</Button></a>
@@ -25,7 +25,7 @@ export function Home() {
         </header>
         <main className='flex flex-col flex-wrap gap-3'>
           
-          <p className='text-lg p-2 text-center'>In today's fast-paced world, managing your finances efficiently is essential to achieving your goals and ensuring 
+          <p className='text-lg p-4 text-center'>In today's fast-paced world, managing your finances efficiently is essential to achieving your goals and ensuring 
           a healthy financial future. Aurea has been developed with the aim of simplifying this task, offering an intuitive 
           and powerful platform for total control of your personal finances.</p>
       
