@@ -12,7 +12,7 @@ npx tailwindcss init -p
 npm i react-router-dom @types/react-router-dom -D
 npm i axios @types/axios -D
 npm i lucide-react
-
+npm i dayjs
 npm install -D tailwind-merge @tailwindcss/forms 
 
 add project in vercel with git
