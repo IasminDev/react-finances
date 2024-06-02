@@ -8,6 +8,7 @@ interface Option {
 }
 
 export function DropDown() {
+  
   const [value, setValue] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
   const [focusedOption, setFocusedOption] = useState<number>(0);
@@ -35,10 +36,10 @@ export function DropDown() {
   };
 
   const options: Option[] = [
-    { value: '1', label: 'Excellent', color: 'text-green-500' },
-    { value: '2', label: 'Good', color: 'text-blue-500' },
-    { value: '3', label: 'Fair', color: 'text-yellow-500' },
-    { value: '4', label: 'Poor', color: 'text-red-500' },
+    { value: 'Paid', label: 'Paid', color: 'text-green-500' },
+    { value: 'Pending', label: 'Pending', color: 'text-blue-500' },
+    { value: 'Cancelled', label: 'Cancelled', color: 'text-yellow-500' },
+    { value: 'Overdue', label: 'Overdue', color: 'text-red-500' },
   ];
 
   return (
