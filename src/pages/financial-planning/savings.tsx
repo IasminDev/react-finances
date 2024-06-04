@@ -168,7 +168,7 @@ function TransactionRow({ transaction }: { transaction: Transaction }) {
         <TableHeader>Transaction</TableHeader>
         <TableCell>{transaction.description}</TableCell>
         <TableHeader>Amount</TableHeader>
-        <TableCell>${transaction.amount.toFixed(2)}</TableCell>
+        <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
         <TableHeader>Status</TableHeader>
         <TableCell>
           <StatusSpan className={statusColorMap[transaction.status]}>
@@ -186,7 +186,7 @@ function TransactionRow({ transaction }: { transaction: Transaction }) {
 
       <TableRow className='hidden sm:table-row'>
       <TableCell>{transaction.description}</TableCell>
-      <TableCell>${transaction.amount.toFixed(2)}</TableCell>
+      <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
       <TableCell>
         <StatusSpan className={statusColorMap[transaction.status]}>
           {transaction.status}
