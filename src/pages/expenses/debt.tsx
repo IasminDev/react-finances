@@ -190,7 +190,7 @@ function TransactionRow({ transaction }: { transaction: Transaction }) {
 
       <TableRow className='hidden sm:table-row'>
       <TableCell>{transaction.description}</TableCell>
-      <TableCell>${transaction.amount.toFixed(2)}</TableCell>
+      <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
       <TableCell>
         <StatusSpan className={statusColorMap[transaction.status]}>
           {transaction.status}
