@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import { useState } from "react";
+
 import { Header } from "../../components/header/header";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
@@ -9,95 +11,176 @@ import { TableHeader } from "../../components/ui/table/table-header";
 import { TableRow } from "../../components/ui/table/table-row";
 import { TableCell } from "../../components/ui/table/table-cell";
 
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontal } from 'lucide-react'
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  MoreHorizontal,
+} from "lucide-react";
 
-export function FinancialGoals(){
-    return(
-        <div className='flex flex-col gap-5'>
-      <Header/>
-      <div className='flex flex-wrap items-center px-5 gap-5 justify-center sm:justify-between mt-24'>
-        <h2 className='roboto-medium text-xl'>Financial Goals</h2>
+interface Goal {
+  description: string;
+  value: number;
+  date: string;
+}
+
+export function FinancialGoals() {
+  const [goals, setGoals] = useState<Goal[]>([]);
+  const [description, setDescription] = useState("");
+  const [value, setValue] = useState<string | number>("");
+  const [date, setDate] = useState("");
+  const [info, setInfo] = useState<string>("");
+
+  const handleInsert = () => {
+    if (!description) {
+      setInfo("Please enter a description");
+      return;
+    }
+    if (typeof value !== "number" || value <= 0 || isNaN(value)) {
+      setInfo("Please enter a valid value greater than 0");
+      return;
+    }
+    if (!date) {
+      setInfo("Please select a date");
+      return;
+    }
+
+    const newGoal: Goal = {
+      description,
+      value,
+      date,
+    };
+
+    setGoals([...goals, newGoal]);
+    setDescription("");
+    setValue(0);
+    setDate("");
+    setInfo("");
+  };
+
+  return (
+    <div className="flex flex-col gap-5">
+      <Header />
+      <div className="flex flex-wrap items-center px-5 gap-5 justify-center sm:justify-between mt-24">
+        <h2 className="roboto-medium text-xl">Financial Goals</h2>
       </div>
-      <div className='flex flex-col flex-wrap justify-center items-center sm:flex-row'>          
-          <div className='flex flex-col p-2 gap-2'>
-            <label id='description'>Description <span className="text-xs text-slate-400 ">(max 50 characters)</span></label>
-            <Input
-            type='text'
-            id='description'
-            placeholder='Description'
+      <div className="flex flex-col flex-wrap justify-center items-center sm:flex-row">
+        <div className="flex flex-col p-2 gap-2">
+          <label id="description">
+            Description{" "}
+            <span className="text-xs text-slate-400 ">(max 50 characters)</span>
+          </label>
+          <Input
+            type="text"
+            id="description"
+            placeholder="Description"
             maxLength={50}
-            />
-          </div>
-          
-          <div className='flex flex-col p-2 gap-2'>
-            <label id='Value'>Value</label>
-            <Input
-            type='number'
-            id='amount'
-            placeholder='Amount'
-            />
-          </div>
-          
-          <div className='flex flex-col p-2 gap-2'>
-            <label id='Date'>Date</label>
-            <Input
-            type='date'
-            id='date'
-            placeholder='Date'
-            />
-          </div>
-      </div>      
-      <Button>Insert</Button>
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+
+        <div className="flex flex-col p-2 gap-2">
+          <label id="Value">Value</label>
+          <Input
+            type="number"
+            id="value"
+            placeholder="Value"
+            value={value.toString()}
+            onChange={(e) => {
+              const newValue = parseFloat(e.target.value);
+              setValue(isNaN(newValue) ? "" : newValue);
+            }}
+          />
+        </div>
+
+        <div className="flex flex-col p-2 gap-2">
+          <label id="Date">Date</label>
+          <Input
+            type="date"
+            id="date"
+            placeholder="Date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </div>
+      </div>
+      <p className="text-md text-center drop-shadow-lg">{info}</p>
+      <Button className="z-0" onClick={handleInsert}>
+        Insert
+      </Button>
 
       <Table>
         <thead>
-          <tr className='flex flex-col sm:table-row border-b border-slate-400/10'>   
-            <TableHeader>Transaction</TableHeader>
-            <TableHeader>Amount</TableHeader>
+          <tr className="hidden sm:table-row border-b border-slate-400/10">
+            <TableHeader>Goal</TableHeader>
+            <TableHeader>Value</TableHeader>
             <TableHeader>Date</TableHeader>
-            <TableHeader style={{width:64}}></TableHeader>
+            <TableHeader style={{ width: 64 }}></TableHeader>
           </tr>
         </thead>
-      <tbody>
-        <TableRow>
-            <TableCell>Description</TableCell>
-            <TableCell>$ 530.00</TableCell>
-            <TableCell>{dayjs("12/30/2024").format('MM/DD/YYYY')}</TableCell>
-            <TableCell>
-              <IconButton>
-                  <MoreHorizontal className='size-4'/>
-              </IconButton>  
+        {goals.map((goal, index) => (
+          <GoalRow key={index} goal={goal} />
+        ))}
+        <tfoot>
+          <tr className="flex flex-col sm:table-row">
+            <TableCell colSpan={1}>
+              <span>Showing {goals.length} goals</span>
             </TableCell>
-          </TableRow>
-      </tbody>
-      <tfoot>
-        <tr className='flex flex-col sm:table-row'>
-          <TableCell colSpan={2}>
-              <span>Showing 1 transactions</span>
-          </TableCell>
-          <TableCell >
+            <TableCell>
               <span>Page X of Y</span>
-          </TableCell>
-          <TableCell colSpan={2}>
-              <div className='flex justify-center gap-1.5'>
+            </TableCell>
+            <TableCell colSpan={2}>
+              <div className="flex justify-center gap-1.5">
                 <IconButton>
-                    <ChevronsLeft className='size-4'/>
+                  <ChevronsLeft className="size-4" />
                 </IconButton>
                 <IconButton>
-                    <ChevronLeft className='size-4'/>
+                  <ChevronLeft className="size-4" />
                 </IconButton>
                 <IconButton>
-                    <ChevronRight className='size-4'/>
+                  <ChevronRight className="size-4" />
                 </IconButton>
                 <IconButton>
-                    <ChevronsRight className='size-4'/>
+                  <ChevronsRight className="size-4" />
                 </IconButton>
-            </div>
-          </TableCell>
-        </tr>
-      </tfoot>
+              </div>
+            </TableCell>
+          </tr>
+        </tfoot>
       </Table>
- 
-    </div> 
-    )
+    </div>
+  );
+}
+
+function GoalRow({ goal }: { goal: Goal }) {
+  return (
+    <tbody>
+      <TableRow className="flex flex-col sm:hidden">
+        <TableHeader>Goal</TableHeader>
+        <TableCell>{goal.description}</TableCell>
+        <TableHeader>Value</TableHeader>
+        <TableCell>$ {goal.value.toFixed(2)}</TableCell>
+        <TableHeader>Date</TableHeader>
+        <TableCell>{dayjs(goal.date).format("MM/DD/YYYY")}</TableCell>
+        <TableCell className="flex justify-center items-center">
+          <IconButton>
+            <MoreHorizontal className="size-4" />
+          </IconButton>
+        </TableCell>
+      </TableRow>
+
+      <TableRow className="hidden sm:table-row">
+        <TableCell>{goal.description}</TableCell>
+        <TableCell>$ {goal.value.toFixed(2)}</TableCell>
+        <TableCell>{dayjs(goal.date).format("MM/DD/YYYY")}</TableCell>
+        <TableCell>
+          <IconButton>
+            <MoreHorizontal className="size-4" />
+          </IconButton>
+        </TableCell>
+      </TableRow>
+    </tbody>
+  );
 }
