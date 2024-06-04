@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { useSelectContext } from "../../context/drop-down-context";
 
 interface Option {
   value: string;
@@ -9,7 +10,8 @@ interface Option {
 
 export function DropDown() {
   
-  const [value, setValue] = useState<string>('');
+  const { select, setSelect } = useSelectContext();
+
   const [open, setOpen] = useState<boolean>(false);
   const [focusedOption, setFocusedOption] = useState<number>(0);
 
@@ -18,8 +20,8 @@ export function DropDown() {
   };
 
   const handleOptionClick = (optionValue: string) => {
-    setValue(optionValue);
     setOpen(false);
+    setSelect(optionValue);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -54,15 +56,15 @@ export function DropDown() {
         onClick={handleOpenOptions}
         onKeyDown={handleKeyDown}
       >
-        {value ? (
+        {select ? (
           <div>
             <div
-              className={`w-4 h-4 mr-1 ml-1 inline-block ${options.find((option) => option.value === value)?.color ?? ''}`}
+              className={`w-4 h-4 mr-1 ml-1 inline-block ${options.find((option) => option.value === select)?.color ?? ''}`}
               aria-hidden="true"
             >
               &#x25CF;
             </div>
-            {options.find((option) => option.value === value)?.label ?? ''}
+            {options.find((option) => option.value === select)?.label ?? ''}
           </div>
         ) : (
           'Select'
@@ -70,7 +72,7 @@ export function DropDown() {
       </button>
       {open && (
         <ul
-          className="absolute w-full bg-slate-900 border border-slate-400/10 rounded-md shadow-md"
+          className="absolute z-40 w-full bg-slate-900 border border-slate-400/10 rounded-md shadow-md"
           role="listbox"
           aria-activedescendant={focusedOption.toString()}
         >
@@ -100,26 +102,4 @@ export function DropDown() {
     </div>
   );
 }
-// import { ComponentProps, useState } from 'react'
-// import { twMerge } from 'tailwind-merge'
-// interface DropDownProps extends ComponentProps<'select'>{}
-// export function DropDown({...props}:DropDownProps) {
-//   const [status, setStatus] = useState('');
-//     return (
-//     <select    
-//     className={twMerge(
-//         'block w-72 h-12 py-3 px-1.5 text-sm border border-slate-400/10 rounded-md bg-slate-900 outline-none focus:ring-0 focus:border-slate-400/50 placeholder-slate-400'
-//         )}
-//     {...props} 
-//     requerid
-//     value={status}
-//     onChange={(e) => setStatus(e.target.value)}
-//     >
-//       <option>Select:</option>
-//       <option value="1">Excellent</option>
-//       <option value="2">Good</option>
-//       <option value="3">Fair</option>
-//       <option value="4">Poor</option>
-//     </select>
-//     )
-// }
+
