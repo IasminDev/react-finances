@@ -1,4 +1,7 @@
 import dayjs from "dayjs";
+import { useState } from 'react';
+import { useSelectContext } from "../../context/drop-down-context";
+
 import { Header } from "../../components/header/header";
 import { Input } from "../../components/ui/input";
 import { DropDown } from "../../components/ui/drop-down";
@@ -13,7 +16,57 @@ import { StatusSpan } from "../../components/ui/table/status";
 
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontal } from 'lucide-react'
 
+interface Transaction {
+  description: string;
+  amount: number;
+  status: string;
+  date: string;
+}
+
 export function Debt(){
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [description, setDescription] = useState('');
+  const [amount, setAmount] = useState<number>(0.00);
+  const [date, setDate] = useState('');
+  const { select, setSelect } = useSelectContext();
+
+  const handleInsert = () => {
+    console.log('Description:', description);
+    console.log('Amount:', amount);
+    console.log('Status:', select);
+    console.log('Date:', date);
+
+    if (!description) {
+      alert('Please enter a description');
+      return;
+    }
+    if (amount <= 0 || isNaN(amount)) {
+      alert('Please enter a valid amount greater than 0');
+      return;
+    }
+    if (!select) {
+      alert('Please select a status');
+      return;
+    }
+    if (!date) {
+      alert('Please select a date');
+      return;
+    }
+
+    const newTransaction: Transaction = {
+      description,
+      amount,
+      status: select,
+      date
+    }
+
+    setTransactions([...transactions, newTransaction])
+    setDescription('')
+    setAmount(0.00)
+    setDate('')
+    setSelect('')
+  }
+
     return(
       <div className='flex flex-col gap-5'>
         <Header/>
@@ -28,6 +81,8 @@ export function Debt(){
             id='description'
             placeholder='Description'
             maxLength={50}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             />
           </div>
           
@@ -37,6 +92,8 @@ export function Debt(){
             type='number'
             id='amount'
             placeholder='Amount'
+            value={amount}
+            onChange={(e) => setAmount(parseFloat(e.target.value))}
             />
           </div>
           
@@ -51,14 +108,16 @@ export function Debt(){
             type='date'
             id='date'
             placeholder='Date'
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
             />
           </div>
-      </div>      
-      <Button>Insert</Button>
+      </div>    
+      <Button className='z-0' onClick={handleInsert}>Insert</Button>
 
       <Table>
         <thead>
-          <tr className='flex flex-col sm:table-row border-b border-slate-400/10'>   
+            <tr className='hidden sm:table-row border-b border-slate-400/10'>
             <TableHeader>Transaction</TableHeader>
             <TableHeader>Amount</TableHeader>
             <TableHeader>Status</TableHeader>
@@ -66,19 +125,9 @@ export function Debt(){
             <TableHeader style={{width:64}}></TableHeader>
           </tr>
         </thead>
-      <tbody>
-        <TableRow>
-            <TableCell>Description</TableCell>
-            <TableCell>$ 530.00</TableCell>
-            <TableCell><StatusSpan className='bg-green-500'>Status</StatusSpan></TableCell>
-            <TableCell>{dayjs("12/30/2024").format('MM/DD/YYYY')}</TableCell>
-            <TableCell>
-              <IconButton>
-                  <MoreHorizontal className='size-4'/>
-              </IconButton>  
-            </TableCell>
-          </TableRow>
-      </tbody>
+        {transactions.map((transaction, index) => (
+              <TransactionRow key={index} transaction={transaction} />
+        ))}
       <tfoot>
         <tr className='flex flex-col sm:table-row'>
           <TableCell colSpan={2}>
@@ -107,5 +156,53 @@ export function Debt(){
       </tfoot>
       </Table>
     </div>
-    )    
+  )    
+}
+function TransactionRow({ transaction }: { transaction: Transaction }) {
+  const statusColorMap : any = {
+    'Paid': 'bg-green-500',
+    'Pending': 'bg-blue-500',
+    'Cancelled': 'bg-yellow-500',
+    'Overdue': 'bg-red-500',
+    '': 'bg-gray-500' // Default color if no status is selected
+  };
+  return (
+    <tbody>
+      <TableRow className='flex flex-col sm:hidden'>
+        <TableHeader>Transaction</TableHeader>
+        <TableCell>{transaction.description}</TableCell>
+        <TableHeader>Amount</TableHeader>
+        <TableCell>${transaction.amount.toFixed(2)}</TableCell>
+        <TableHeader>Status</TableHeader>
+        <TableCell>
+          <StatusSpan className={statusColorMap[transaction.status]}>
+            {transaction.status}
+          </StatusSpan>
+        </TableCell>
+        <TableHeader>Date</TableHeader>
+        <TableCell>{dayjs(transaction.date).format('MM/DD/YYYY')}</TableCell>
+        <TableCell>
+          <IconButton>
+            <MoreHorizontal className='size-4'/>
+          </IconButton>
+        </TableCell>
+      </TableRow>
+
+      <TableRow className='hidden sm:table-row'>
+      <TableCell>{transaction.description}</TableCell>
+      <TableCell>${transaction.amount.toFixed(2)}</TableCell>
+      <TableCell>
+        <StatusSpan className={statusColorMap[transaction.status]}>
+          {transaction.status}
+        </StatusSpan>
+      </TableCell>
+      <TableCell>{dayjs(transaction.date).format('MM/DD/YYYY')}</TableCell>
+      <TableCell>
+        <IconButton>
+          <MoreHorizontal className='size-4'/>
+        </IconButton>
+      </TableCell>
+    </TableRow>
+  </tbody>
+  );
 }

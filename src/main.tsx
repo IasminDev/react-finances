@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
+import { SelectProvider } from "./context/drop-down-context";
 
 import './index.css'
 import { Home } from './pages/home'
@@ -28,7 +29,8 @@ const router = createBrowserRouter([
   {
     path:"/",
     element: <Home />
-  },{
+  },
+  {
     path:"/dashboard",
     element: <Dashboard />
   },
@@ -50,7 +52,11 @@ const router = createBrowserRouter([
   },
   {
     path:"/savings",
-    element: <Savings />
+    element: (
+      <SelectProvider>
+        <Savings />
+      </SelectProvider>
+    )
   },
   {
     path:"/financial-goals",
@@ -58,7 +64,11 @@ const router = createBrowserRouter([
   },
   {
     path:"/debt",
-    element: <Debt />
+    element: (
+      <SelectProvider>
+        <Debt />
+      </SelectProvider>
+    )
   },
   {
     path:"/variable-expenses",
