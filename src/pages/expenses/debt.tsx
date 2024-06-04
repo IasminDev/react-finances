@@ -131,7 +131,7 @@ export function Debt(){
       <tfoot>
         <tr className='flex flex-col sm:table-row'>
           <TableCell colSpan={2}>
-              <span>Showing 1 transactions</span>
+              <span>Showing {transactions.length} transactions</span>
           </TableCell>
           <TableCell >
               <span>Page X of Y</span>
@@ -172,7 +172,7 @@ function TransactionRow({ transaction }: { transaction: Transaction }) {
         <TableHeader>Transaction</TableHeader>
         <TableCell>{transaction.description}</TableCell>
         <TableHeader>Amount</TableHeader>
-        <TableCell>${transaction.amount.toFixed(2)}</TableCell>
+        <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
         <TableHeader>Status</TableHeader>
         <TableCell>
           <StatusSpan className={statusColorMap[transaction.status]}>
