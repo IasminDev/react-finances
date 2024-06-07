@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { ComponentProps } from "react";
+import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 import { useSelectContext } from "../../context/drop-down-context";
 
 interface Option {
@@ -8,8 +9,11 @@ interface Option {
   color: string;
 }
 
-export function DropDown() {
-  
+interface DropDownProps extends ComponentProps<"button"> {
+  empty?: boolean;
+}
+
+export function DropDown({ empty, ...props }: DropDownProps) {
   const { select, setSelect } = useSelectContext();
 
   const [open, setOpen] = useState<boolean>(false);
@@ -25,11 +29,11 @@ export function DropDown() {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key === 'ArrowDown') {
+    if (event.key === "ArrowDown") {
       setFocusedOption((prevFocusedOption) => prevFocusedOption + 1);
-    } else if (event.key === 'ArrowUp') {
+    } else if (event.key === "ArrowUp") {
       setFocusedOption((prevFocusedOption) => prevFocusedOption - 1);
-    } else if (event.key === 'Enter') {
+    } else if (event.key === "Enter") {
       const selectedOption = options[focusedOption];
       if (selectedOption) {
         handleOptionClick(selectedOption.value);
@@ -38,18 +42,22 @@ export function DropDown() {
   };
 
   const options: Option[] = [
-    { value: 'Paid', label: 'Paid', color: 'text-green-500' },
-    { value: 'Pending', label: 'Pending', color: 'text-blue-500' },
-    { value: 'Cancelled', label: 'Cancelled', color: 'text-yellow-500' },
-    { value: 'Overdue', label: 'Overdue', color: 'text-red-500' },
+    { value: "Paid", label: "Paid", color: "text-green-500" },
+    { value: "Pending", label: "Pending", color: "text-blue-500" },
+    { value: "Cancelled", label: "Cancelled", color: "text-yellow-500" },
+    { value: "Overdue", label: "Overdue", color: "text-red-500" },
   ];
 
   return (
     <div className="relative">
       <button
+        {...props}
         className={twMerge(
-          'block w-72 h-12 py-3 px-1.5 text-sm text-left border border-slate-400/10 rounded-md bg-slate-900 outline-none focus:ring-0 focus:border-slate-400/50 placeholder-slate-400',
-          open ? 'active' : ''
+          `block w-72 h-12 py-3 px-1.5 text-sm text-left border ${
+            empty ? "border-red-500" : "border-slate-400/10"
+          } rounded-md bg-slate-900 
+          outline-none focus:ring-0 focus:border-slate-400/50 placeholder-slate-400`,
+          open ? "active" : ""
         )}
         aria-expanded={open}
         aria-haspopup="true"
@@ -59,15 +67,17 @@ export function DropDown() {
         {select ? (
           <div>
             <div
-              className={`w-4 h-4 mr-1 ml-1 inline-block ${options.find((option) => option.value === select)?.color ?? ''}`}
+              className={`w-4 h-4 mr-1 ml-1 inline-block ${
+                options.find((option) => option.value === select)?.color ?? ""
+              }`}
               aria-hidden="true"
             >
               &#x25CF;
             </div>
-            {options.find((option) => option.value === select)?.label ?? ''}
+            {options.find((option) => option.value === select)?.label ?? ""}
           </div>
         ) : (
-          'Select'
+          "Select"
         )}
       </button>
       {open && (
@@ -80,8 +90,8 @@ export function DropDown() {
             <li
               key={option.value}
               className={twMerge(
-                'py-3 px-1.5 cursor-pointer',
-                focusedOption === index ? 'bg-slate-800' : ''
+                "py-3 px-1.5 cursor-pointer",
+                focusedOption === index ? "bg-slate-800" : ""
               )}
               role="option"
               aria-selected={focusedOption === index}
@@ -102,4 +112,3 @@ export function DropDown() {
     </div>
   );
 }
-

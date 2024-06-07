@@ -35,24 +35,35 @@ export function Debt() {
   const [amount, setAmount] = useState<string | number>("");
   const [date, setDate] = useState("");
   const { select, setSelect } = useSelectContext();
-  const [info, setInfo] = useState<string>("");
+  const [infoDesc, setInfoDesc] = useState<string>("");
+  const [infoAmount, setInfoAmount] = useState<string>("");
+  const [infoSelect, setInfoSelect] = useState<string>("");
+  const [infoDate, setInfoDate] = useState<string>("");
 
   const handleInsert = () => {
     if (!description) {
-      setInfo("Please enter a description");
+      setInfoDesc("Please enter a description");
       return;
+    } else {
+      setInfoDesc("");
     }
     if (typeof amount !== "number" || amount <= 0 || isNaN(amount)) {
-      setInfo("Please enter a valid amount greater than 0");
+      setInfoAmount("Please enter a valid amount greater than 0");
       return;
+    } else {
+      setInfoAmount("");
     }
     if (!select) {
-      setInfo("Please select a status");
+      setInfoSelect("Please select a status");
       return;
+    } else {
+      setInfoSelect("");
     }
     if (!date) {
-      setInfo("Please select a date");
+      setInfoDate("Please select a date");
       return;
+    } else {
+      setInfoDate("");
     }
 
     const newTransaction: Transaction = {
@@ -64,10 +75,13 @@ export function Debt() {
 
     setTransactions([...transactions, newTransaction]);
     setDescription("");
-    setAmount(0.0);
+    setAmount("");
     setDate("");
     setSelect("");
-    setInfo("");
+    setInfoDesc("");
+    setInfoAmount("");
+    setInfoSelect("");
+    setInfoDate("");
   };
 
   return (
@@ -83,6 +97,7 @@ export function Debt() {
             <span className="text-xs text-slate-400 ">(max 50 characters)</span>
           </label>
           <Input
+            empty={!!infoDesc}
             type="text"
             id="description"
             placeholder="Description"
@@ -95,6 +110,7 @@ export function Debt() {
         <div className="flex flex-col p-2 gap-2">
           <label id="Value">Value</label>
           <Input
+            empty={!!infoAmount}
             type="number"
             id="amount"
             placeholder="Amount"
@@ -108,12 +124,13 @@ export function Debt() {
 
         <div className="flex flex-col p-2 gap-2">
           <label id="Status">Status</label>
-          <DropDown />
+          <DropDown empty={!!infoSelect} />
         </div>
 
         <div className="flex flex-col p-2 gap-2">
           <label id="Date">Date</label>
           <Input
+            empty={!!infoDate}
             type="date"
             id="date"
             placeholder="Date"
@@ -122,8 +139,17 @@ export function Debt() {
           />
         </div>
       </div>
-      <p className="text-md text-center drop-shadow-lg">{info}</p>
-      <Button className="z-0" onClick={handleInsert}>
+      <p className="text-md text-center drop-shadow-lg">
+        {infoDesc}
+        {infoAmount}
+        {infoSelect}
+        {infoDate}
+      </p>
+      <Button
+        className="z-0"
+        onClick={handleInsert}
+        disable={!!infoDesc || !!infoAmount || !!infoSelect || !!infoDate}
+      >
         Insert
       </Button>
 
@@ -142,10 +168,10 @@ export function Debt() {
         ))}
         <tfoot>
           <tr className="flex flex-col sm:table-row">
-            <TableCell colSpan={2}>
+            <TableCell colSpan={2} className="text-center">
               <span>Showing {transactions.length} transactions</span>
             </TableCell>
-            <TableCell>
+            <TableCell className="text-center">
               <span>Page X of Y</span>
             </TableCell>
             <TableCell colSpan={2}>
@@ -183,20 +209,40 @@ function TransactionRow({ transaction }: { transaction: Transaction }) {
 
   return (
     <tbody>
-      <TableRow className="flex flex-col sm:hidden">
-        <TableHeader>Transaction</TableHeader>
-        <TableCell>{transaction.description}</TableCell>
-        <TableHeader>Amount</TableHeader>
-        <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
-        <TableHeader>Status</TableHeader>
-        <TableCell>
-          <StatusSpan className={statusColorMap[transactionStatus]}>
-            {transaction.status}
-          </StatusSpan>
-        </TableCell>
-        <TableHeader>Date</TableHeader>
-        <TableCell>{dayjs(transaction.date).format("MM/DD/YYYY")}</TableCell>
-        <TableCell>
+      <TableRow className="flex flex-col p-2 sm:hidden">
+        <div className="flex justify-between">
+          <TableHeader>Transaction</TableHeader>
+          <TableCell>{transaction.description}</TableCell>
+        </div>
+        <div className="flex justify-center">
+          <hr className="w-60 p-1 border-white/10" />
+        </div>
+        <div className="flex justify-between">
+          <TableHeader>Amount</TableHeader>
+          <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
+        </div>
+        <div className="flex justify-center">
+          <hr className="w-60 p-1 border-white/10" />
+        </div>
+        <div className="flex justify-between">
+          <TableHeader>Status</TableHeader>
+          <TableCell>
+            <StatusSpan className={statusColorMap[transactionStatus]}>
+              {transaction.status}
+            </StatusSpan>
+          </TableCell>
+        </div>
+        <div className="flex justify-center">
+          <hr className="w-60 p-1 border-white/10" />
+        </div>
+        <div className="flex justify-between">
+          <TableHeader>Date</TableHeader>
+          <TableCell>{dayjs(transaction.date).format("MM/DD/YYYY")}</TableCell>
+        </div>
+        <div className="flex justify-center">
+          <hr className="w-60 p-1 border-white/10" />
+        </div>
+        <TableCell className="flex items-center">
           <IconButton>
             <MoreHorizontal className="size-4" />
           </IconButton>
