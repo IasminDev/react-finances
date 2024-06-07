@@ -27,23 +27,31 @@ interface Goal {
 
 export function FinancialGoals() {
   const [goals, setGoals] = useState<Goal[]>([]);
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState<string>("");
   const [value, setValue] = useState<string | number>("");
-  const [date, setDate] = useState("");
-  const [info, setInfo] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [infoDesc, setInfoDesc] = useState<string>("");
+  const [infoValue, setInfoValue] = useState<string>("");
+  const [infoDate, setInfoDate] = useState<string>("");
 
   const handleInsert = () => {
     if (!description) {
-      setInfo("Please enter a description");
+      setInfoDesc("Please enter a description");
       return;
+    } else {
+      setInfoDesc("");
     }
     if (typeof value !== "number" || value <= 0 || isNaN(value)) {
-      setInfo("Please enter a valid value greater than 0");
+      setInfoValue("Please enter a valid value greater than 0");
       return;
+    } else {
+      setInfoValue("");
     }
     if (!date) {
-      setInfo("Please select a date");
+      setInfoDate("Please select a date");
       return;
+    } else {
+      setInfoDate("");
     }
 
     const newGoal: Goal = {
@@ -54,9 +62,11 @@ export function FinancialGoals() {
 
     setGoals([...goals, newGoal]);
     setDescription("");
-    setValue(0);
+    setValue("");
     setDate("");
-    setInfo("");
+    setInfoDesc("");
+    setInfoValue("");
+    setInfoDate("");
   };
 
   return (
@@ -72,6 +82,7 @@ export function FinancialGoals() {
             <span className="text-xs text-slate-400 ">(max 50 characters)</span>
           </label>
           <Input
+            empty={!!infoDesc}
             type="text"
             id="description"
             placeholder="Description"
@@ -84,6 +95,7 @@ export function FinancialGoals() {
         <div className="flex flex-col p-2 gap-2">
           <label id="Value">Value</label>
           <Input
+            empty={!!infoValue}
             type="number"
             id="value"
             placeholder="Value"
@@ -98,6 +110,7 @@ export function FinancialGoals() {
         <div className="flex flex-col p-2 gap-2">
           <label id="Date">Date</label>
           <Input
+            empty={!!infoDate}
             type="date"
             id="date"
             placeholder="Date"
@@ -106,8 +119,16 @@ export function FinancialGoals() {
           />
         </div>
       </div>
-      <p className="text-md text-center drop-shadow-lg">{info}</p>
-      <Button className="z-0" onClick={handleInsert}>
+      <p className="text-md text-center drop-shadow-lg">
+        {infoDesc}
+        {infoValue}
+        {infoDate}
+      </p>
+      <Button
+        className="z-0"
+        onClick={handleInsert}
+        disable={!!infoDesc || !!infoValue || !!infoDate}
+      >
         Insert
       </Button>
 
@@ -125,10 +146,10 @@ export function FinancialGoals() {
         ))}
         <tfoot>
           <tr className="flex flex-col sm:table-row">
-            <TableCell colSpan={1}>
+            <TableCell colSpan={1} className="text-center">
               <span>Showing {goals.length} goals</span>
             </TableCell>
-            <TableCell>
+            <TableCell className="text-center">
               <span>Page X of Y</span>
             </TableCell>
             <TableCell colSpan={2}>
@@ -157,14 +178,29 @@ export function FinancialGoals() {
 function GoalRow({ goal }: { goal: Goal }) {
   return (
     <tbody>
-      <TableRow className="flex flex-col sm:hidden">
-        <TableHeader>Goal</TableHeader>
-        <TableCell>{goal.description}</TableCell>
-        <TableHeader>Value</TableHeader>
-        <TableCell>$ {goal.value.toFixed(2)}</TableCell>
-        <TableHeader>Date</TableHeader>
-        <TableCell>{dayjs(goal.date).format("MM/DD/YYYY")}</TableCell>
-        <TableCell className="flex justify-center items-center">
+      <TableRow className="flex flex-col p-2 sm:hidden">
+        <div className="flex justify-between">
+          <TableHeader>Goal</TableHeader>
+          <TableCell>{goal.description}</TableCell>
+        </div>
+        <div className="flex justify-center">
+          <hr className="w-60 p-1 border-white/10" />
+        </div>
+        <div className="flex justify-between">
+          <TableHeader>Value</TableHeader>
+          <TableCell>$ {goal.value.toFixed(2)}</TableCell>
+        </div>
+        <div className="flex justify-center">
+          <hr className="w-60 p-1 border-white/10" />
+        </div>
+        <div className="flex justify-between">
+          <TableHeader>Date</TableHeader>
+          <TableCell>{dayjs(goal.date).format("MM/DD/YYYY")}</TableCell>
+        </div>
+        <div className="flex justify-center">
+          <hr className="w-60 p-1 border-white/10" />
+        </div>
+        <TableCell className="flex items-center">
           <IconButton>
             <MoreHorizontal className="size-4" />
           </IconButton>
