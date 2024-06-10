@@ -13,7 +13,6 @@ export function Header(){
             <div className='flex items-center justify-end gap-1 px-5'>
                 <Notification/>
                 <Login/>
-                <h1>teste</h1>
             </div>
         </div>
     )

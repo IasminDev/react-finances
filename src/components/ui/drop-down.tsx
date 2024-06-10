@@ -48,6 +48,7 @@ export function DropDown({ empty, ...props }: DropDownProps) {
     { value: "Overdue", label: "Overdue", color: "text-red-500" },
   ];
 
+
   return (
     <div className="relative">
       <button
@@ -71,43 +72,47 @@ export function DropDown({ empty, ...props }: DropDownProps) {
                 options.find((option) => option.value === select)?.color ?? ""
               }`}
               aria-hidden="true"
-            >
+              >
               &#x25CF;
             </div>
             {options.find((option) => option.value === select)?.label ?? ""}
           </div>
         ) : (
           "Select"
-        )}
+          )}
       </button>
-      {open && (
-        <ul
+        {open && (
+          <ul
           className="absolute z-40 w-full bg-slate-900 border border-slate-400/10 rounded-md shadow-md"
-          role="listbox"
-          aria-activedescendant={focusedOption.toString()}
-        >
-          {options.map((option, index) => (
-            <li
-              key={option.value}
-              className={twMerge(
-                "py-3 px-1.5 cursor-pointer",
-                focusedOption === index ? "bg-slate-800" : ""
-              )}
-              role="option"
-              aria-selected={focusedOption === index}
-              onClick={() => handleOptionClick(option.value)}
-              onMouseOver={() => setFocusedOption(index)}
-            >
-              <div
-                className={`w-4 h-4 mr-2 inline-block ${option.color}`}
-                aria-hidden="true"
+            role="listbox"
+            aria-activedescendant={focusedOption.toString()}
+          >
+            {options.map((option, index) => (
+              <li
+                key={option.value}
+                className={twMerge(
+                  "py-3 px-1.5 cursor-pointer",
+                  focusedOption === index ? "bg-slate-800" : ""
+                )}
+                role="option"
+                aria-selected={focusedOption === index}
+                onClick={() => handleOptionClick(option.value)}
+                onMouseOver={() => setFocusedOption(index)}
               >
-                &#x25CF;
-              </div>
-              {option.label}
-            </li>
-          ))}
-        </ul>
+                <div
+                  className={`w-4 h-4 mr-2 inline-block ${option.color}`}
+                  aria-hidden="true"
+                >
+                  &#x25CF;
+                </div>
+                {option.label}
+              </li>
+            ))}
+          </ul>
+      )}
+      {open && (        
+        <div className="fixed z-30 inset-0 bg-slate-950/70" onClick={()=>setOpen(false)}/>
+       
       )}
     </div>
   );
