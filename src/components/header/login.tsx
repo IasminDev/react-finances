@@ -3,7 +3,7 @@ import { SquareUserIcon, ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 
 export function Login(){
-    const [transparent, setTransparent] = useState(true)
+    const [transparent, setTransparent] = useState<boolean>(true)
     const name= 'Login'
     return(
         <div onClick={() => setTransparent(!transparent)} className='flex items-center justify-end gap-1 cursor-pointer'>

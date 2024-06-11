@@ -18,12 +18,14 @@ import {
   ChevronsRight,
   MoreHorizontal,
 } from "lucide-react";
+import { EditOrDelete } from "../../components/popout/editOrDelete";
 
 interface Goal {
   description: string;
   value: number;
   date: string;
 }
+
 
 export function FinancialGoals() {
   const [goals, setGoals] = useState<Goal[]>([]);
@@ -33,6 +35,7 @@ export function FinancialGoals() {
   const [infoDesc, setInfoDesc] = useState<string>("");
   const [infoValue, setInfoValue] = useState<string>("");
   const [infoDate, setInfoDate] = useState<string>("");
+  const [transparent, setTransparent] = useState<boolean>(true);
 
   const handleInsert = () => {
     if (!description) {
@@ -66,7 +69,14 @@ export function FinancialGoals() {
     setDate("");
     setInfoDesc("");
     setInfoValue("");
-    setInfoDate("");
+  };
+
+  const handleOpenOverlay = () => {
+    setTransparent(false);
+  };
+
+  const handleCloseOverlay = () =>{
+    setTransparent(true);
   };
 
   return (
@@ -141,9 +151,54 @@ export function FinancialGoals() {
             <TableHeader style={{ width: 64 }}></TableHeader>
           </tr>
         </thead>
+        <tbody>
         {goals.map((goal, index) => (
-          <GoalRow key={index} goal={goal} />
-        ))}
+          <TableRow key={index} className="flex flex-col p-2 sm:hidden">
+            <div className="flex justify-between">
+              <TableHeader>Goal</TableHeader>
+              <TableCell>{goal.description}</TableCell>
+            </div>
+            <div className="flex justify-center">
+              <hr className="w-60 p-1 border-white/10" />
+            </div>
+            <div className="flex justify-between">
+              <TableHeader>Value</TableHeader>
+              <TableCell>$ {goal.value.toFixed(2)}</TableCell>
+            </div>
+            <div className="flex justify-center">
+              <hr className="w-60 p-1 border-white/10" />
+            </div>
+            <div className="flex justify-between">
+              <TableHeader>Date</TableHeader>
+              <TableCell>{dayjs(goal.date).format("MM/DD/YYYY")}</TableCell>
+            </div>
+            <div className="flex justify-center">
+              <hr className="w-60 p-1 border-white/10" />
+            </div>
+            <TableCell className="flex items-center">
+              <IconButton>
+                <MoreHorizontal onClick={handleOpenOverlay} className="size-4" />
+              </IconButton>
+              <EditOrDelete transparent={transparent}/>
+            </TableCell>
+          </TableRow>
+            ))}
+        {goals.map((goal, index) => (
+    
+          <TableRow key={index} className="hidden sm:table-row">
+            <TableCell>{goal.description}</TableCell>
+            <TableCell>$ {goal.value.toFixed(2)}</TableCell>
+            <TableCell>{dayjs(goal.date).format("MM/DD/YYYY")}</TableCell>
+            <TableCell>
+              <IconButton>
+                <MoreHorizontal  onClick={handleOpenOverlay} className="size-4" />
+              </IconButton>
+            <EditOrDelete transparent={transparent}/>
+            </TableCell>
+          </TableRow>
+            ))}
+
+      </tbody>
         <tfoot>
           <tr className="flex flex-col sm:table-row">
             <TableCell colSpan={1} className="text-center">
@@ -171,52 +226,12 @@ export function FinancialGoals() {
           </tr>
         </tfoot>
       </Table>
+      {!transparent && (
+        <div
+        className='fixed z-40 inset-0 bg-slate-950/70 cursor-pointer'
+        onClick={handleCloseOverlay}
+        />
+      )}
     </div>
-  );
-}
-
-function GoalRow({ goal }: { goal: Goal }) {
-  return (
-    <tbody>
-      <TableRow className="flex flex-col p-2 sm:hidden">
-        <div className="flex justify-between">
-          <TableHeader>Goal</TableHeader>
-          <TableCell>{goal.description}</TableCell>
-        </div>
-        <div className="flex justify-center">
-          <hr className="w-60 p-1 border-white/10" />
-        </div>
-        <div className="flex justify-between">
-          <TableHeader>Value</TableHeader>
-          <TableCell>$ {goal.value.toFixed(2)}</TableCell>
-        </div>
-        <div className="flex justify-center">
-          <hr className="w-60 p-1 border-white/10" />
-        </div>
-        <div className="flex justify-between">
-          <TableHeader>Date</TableHeader>
-          <TableCell>{dayjs(goal.date).format("MM/DD/YYYY")}</TableCell>
-        </div>
-        <div className="flex justify-center">
-          <hr className="w-60 p-1 border-white/10" />
-        </div>
-        <TableCell className="flex items-center">
-          <IconButton>
-            <MoreHorizontal className="size-4" />
-          </IconButton>
-        </TableCell>
-      </TableRow>
-
-      <TableRow className="hidden sm:table-row">
-        <TableCell>{goal.description}</TableCell>
-        <TableCell>$ {goal.value.toFixed(2)}</TableCell>
-        <TableCell>{dayjs(goal.date).format("MM/DD/YYYY")}</TableCell>
-        <TableCell>
-          <IconButton>
-            <MoreHorizontal className="size-4" />
-          </IconButton>
-        </TableCell>
-      </TableRow>
-    </tbody>
   );
 }
