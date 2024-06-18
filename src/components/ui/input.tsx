@@ -15,7 +15,7 @@ export function Input({ empty, ...props }: InputProps) {
         {...props}
         required
         className={twMerge(
-          "py-3 px-1.5 w-full h-12 bg-transparent rounded-md placeholder-slate-400 flex-1 outline-none border-0 text-sm focus:ring-1 focus:ring-slate-400/50"
+          "py-3 px-1.5 w-full h-12 bg-slate-900 rounded-md placeholder-slate-400 flex-1 outline-none border-0 text-sm focus:ring-1 focus:ring-slate-400/50"
         )}
       />
     </div>

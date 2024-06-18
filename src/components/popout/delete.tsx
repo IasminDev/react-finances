@@ -1,13 +1,14 @@
-import { ComponentProps } from "react";
+import { ComponentProps, Dispatch, SetStateAction } from "react";
 import { Button } from "../ui/button";
 import { twMerge } from "tailwind-merge";
 
 interface DeleteProps extends ComponentProps<"div">{
     openDelete?: boolean;
+    setOpenDeleteProps: Dispatch<SetStateAction<boolean>>;
 }
 
 
-export function Delete({ openDelete }: DeleteProps){
+export function Delete({ openDelete, setOpenDeleteProps }: DeleteProps){
     return(
         <div className={twMerge(
             `fixed inset-0 flex items-center justify-center z-50`,
@@ -17,10 +18,9 @@ export function Delete({ openDelete }: DeleteProps){
                 <p className="mb-4 text-center">Are you sure you want to delete this transaction?</p>
                 <div className="flex space-x-2">
                     <Button>Confirm</Button>
-                    <Button>Cancel</Button>
+                    <Button onClick={() => setOpenDeleteProps(false)}>Cancel</Button>
                 </div>
             </div>
-        
         </div>
     )
 }

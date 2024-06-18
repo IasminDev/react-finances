@@ -12,13 +12,13 @@ import { TableRow } from "../../components/ui/table/table-row";
 import { TableCell } from "../../components/ui/table/table-cell";
 
 import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  MoreHorizontal,
+  PencilIcon,
+  Trash2Icon,
 } from "lucide-react";
-import { EditOrDelete } from "../../components/popout/editOrDelete";
+
+
+import { Delete } from "../../components/popout/delete";
+import { Edit } from "../../components/popout/edit";
 
 interface Goal {
   description: string;
@@ -35,9 +35,10 @@ export function FinancialGoals() {
   const [infoDesc, setInfoDesc] = useState<string>("");
   const [infoValue, setInfoValue] = useState<string>("");
   const [infoDate, setInfoDate] = useState<string>("");
-  const [transparent, setTransparent] = useState<boolean>(true);
   const [modal, setModal] = useState<boolean>(false);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
+  const[openDelete, setOpenDelete] = useState<boolean>(false);
+  const[openEdit, setOpenEdit] = useState<boolean>(false);
 
   const handleInsert = () => {
     if (!description) {
@@ -73,16 +74,16 @@ export function FinancialGoals() {
     setInfoValue("");
   };
 
-  const handleOpenOverlay = (index : number) => {
-    setTransparent(false);
+  const handleOpenDelete = (index : number) => {
+    setOpenDelete(true);
     setModal(true);
     setModalIndex(index);
   };
 
-  const handleCloseOverlay = () =>{
-    setTransparent(true);
-    setModal(false);
-    setModalIndex(null);
+  const handleOpenEdit = (index : number) => {
+    setOpenEdit(true);
+    setModal(true);
+    setModalIndex(index);
   };
 
   return (
@@ -182,12 +183,18 @@ export function FinancialGoals() {
             <div className="flex justify-center">
               <hr className="w-60 p-1 border-white/10" />
             </div>
-            <TableCell className="flex items-center">
-              <IconButton>
-                <MoreHorizontal onClick={()=> handleOpenOverlay(index)} className="size-4" />
-              </IconButton>
-              {modal && modalIndex === index &&(
-              <EditOrDelete transparent={transparent}/>
+            <TableCell className="flex gap-3 items-center">
+            <IconButton>
+                <PencilIcon onClick={() => handleOpenEdit(index)} className="size-4" />
+            </IconButton>
+            {modal && modalIndex === index && (
+                <Edit goals={true} openEdit={openEdit} setOpenEditProps={setOpenEdit}/>
+              )}
+            <IconButton>
+                <Trash2Icon onClick={() => handleOpenDelete(index)} className="size-4" />
+            </IconButton>
+              {modal && modalIndex === index && (
+                <Delete openDelete={openDelete} setOpenDeleteProps={setOpenDelete}/>
               )}
             </TableCell>
           </TableRow>
@@ -197,51 +204,42 @@ export function FinancialGoals() {
             <TableCell>{goal.description}</TableCell>
             <TableCell>$ {goal.value.toFixed(2)}</TableCell>
             <TableCell>{dayjs(goal.date).format("MM/DD/YYYY")}</TableCell>
-            <TableCell>
-              <IconButton>
-                <MoreHorizontal onClick={()=>handleOpenOverlay(index)} className="size-4" />
-              </IconButton>
-            {modal && modalIndex === index&&(
-            <EditOrDelete transparent={transparent}/>
-            )}
+            <TableCell className="flex gap-3 items-center">
+            <IconButton>
+                <PencilIcon onClick={() => handleOpenEdit(index)} className="size-4" />
+            </IconButton>
+            {modal && modalIndex === index && (
+                <Edit goals={true} openEdit={openEdit} setOpenEditProps={setOpenEdit}/>
+              )}
+            <IconButton>
+                <Trash2Icon onClick={() => handleOpenDelete(index)} className="size-4" />
+            </IconButton>
+              {modal && modalIndex === index && (
+                <Delete openDelete={openDelete} setOpenDeleteProps={setOpenDelete}/>
+              )}
             </TableCell>
           </TableRow>
             ))}
 
       </tbody>
         <tfoot>
-          <tr className="flex flex-col sm:table-row">
-            <TableCell colSpan={1} className="text-center">
-              <span>Showing {goals.length} goals</span>
-            </TableCell>
-            <TableCell className="text-center">
-              <span>Page X of Y</span>
-            </TableCell>
-            <TableCell colSpan={2}>
-              <div className="flex justify-center gap-1.5">
-                <IconButton>
-                  <ChevronsLeft className="size-4" />
-                </IconButton>
-                <IconButton>
-                  <ChevronLeft className="size-4" />
-                </IconButton>
-                <IconButton>
-                  <ChevronRight className="size-4" />
-                </IconButton>
-                <IconButton>
-                  <ChevronsRight className="size-4" />
-                </IconButton>
-              </div>
+         <tr className="flex flex-col sm:table-row">
+            <TableCell colSpan={5} className="text-center">
+              <span>Showing {goals.length} transactions</span>
             </TableCell>
           </tr>
         </tfoot>
       </Table>
-      {!transparent && (
+        {openEdit && (
         <div
         className='fixed z-40 inset-0 bg-slate-950/70 cursor-pointer'
-        onClick={handleCloseOverlay}
         />
-      )}
+        )}
+      {openDelete && (
+        <div
+        className='fixed z-40 inset-0 bg-slate-950/70 cursor-pointer'
+        />
+        )}
     </div>
   );
 }

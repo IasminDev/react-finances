@@ -15,13 +15,12 @@ import { TableCell } from "../../components/ui/table/table-cell";
 import { StatusSpan } from "../../components/ui/table/status";
 
 import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  MoreHorizontal,
+  PencilIcon,
+  Trash2Icon,
 } from "lucide-react";
-import { EditOrDelete } from "../../components/popout/editOrDelete";
+
+import { Delete } from "../../components/popout/delete";
+import { Edit } from "../../components/popout/edit";
 
 interface Transaction {
   description: string;
@@ -40,9 +39,10 @@ export function Savings() {
   const [infoAmount, setInfoAmount] = useState<string>("");
   const [infoSelect, setInfoSelect] = useState<string>("");
   const [infoDate, setInfoDate] = useState<string>("");
-  const [transparent, setTransparent] = useState<boolean>(true);
   const [modal, setModal] = useState<boolean>(false);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
+  const[openDelete, setOpenDelete] = useState<boolean>(false);
+  const[openEdit, setOpenEdit] = useState<boolean>(false);
 
   type Status = "Paid" | "Pending" | "Cancelled" | "Overdue" | "";
   const statusColorMap: { [key in Status]: string } = {
@@ -97,16 +97,17 @@ export function Savings() {
     setInfoDate("");
   };
 
-    const handleOpenOverlay = (index : number) => {
-    setTransparent(false);
+    
+  const handleOpenDelete = (index : number) => {
+    setOpenDelete(true);
     setModal(true);
     setModalIndex(index);
   };
 
-    const handleCloseOverlay = () => {
-      setTransparent(true);
-      setModal(false);
-      setModalIndex(null);
+  const handleOpenEdit = (index : number) => {
+    setOpenEdit(true);
+    setModal(true);
+    setModalIndex(index);
   };
 
   return (
@@ -224,14 +225,20 @@ export function Savings() {
               <div className="flex justify-center">
                 <hr className="w-60 p-1 border-white/10" />
               </div>
-              <TableCell className="flex items-center">
-                <IconButton>
-                  <MoreHorizontal onClick={() =>handleOpenOverlay(index)} className="size-4" />
-                </IconButton>
-                {modal && modalIndex === index &&(
-                  <EditOrDelete transparent={transparent}/>
-                )}
-              </TableCell>
+              <TableCell className="flex gap-3 items-center">
+            <IconButton>
+                <PencilIcon onClick={() => handleOpenEdit(index)} className="size-4" />
+            </IconButton>
+            {modal && modalIndex === index && (
+                <Edit openEdit={openEdit} setOpenEditProps={setOpenEdit}/>
+              )}
+            <IconButton>
+                <Trash2Icon onClick={() => handleOpenDelete(index)} className="size-4" />
+            </IconButton>
+              {modal && modalIndex === index && (
+                <Delete openDelete={openDelete} setOpenDeleteProps={setOpenDelete}/>
+              )}
+            </TableCell>
             </TableRow>
             )}
           )}
@@ -248,12 +255,18 @@ export function Savings() {
               </StatusSpan>
             </TableCell>
             <TableCell>{dayjs(transaction.date).format("MM/DD/YYYY")}</TableCell>
-            <TableCell>
-              <IconButton>
-                <MoreHorizontal onClick={() => handleOpenOverlay(index)} className="size-4" />
-              </IconButton>
-              {modal && modalIndex === index &&(
-                <EditOrDelete transparent={transparent}/>
+            <TableCell className="flex gap-3 items-center">
+            <IconButton>
+                <PencilIcon onClick={() => handleOpenEdit(index)} className="size-4" />
+            </IconButton>
+            {modal && modalIndex === index && (
+                <Edit openEdit={openEdit} setOpenEditProps={setOpenEdit}/>
+              )}
+            <IconButton>
+                <Trash2Icon onClick={() => handleOpenDelete(index)} className="size-4" />
+            </IconButton>
+              {modal && modalIndex === index && (
+                <Delete openDelete={openDelete} setOpenDeleteProps={setOpenDelete}/>
               )}
             </TableCell>
           </TableRow>
@@ -263,37 +276,22 @@ export function Savings() {
 
         <tfoot>
           <tr className="flex flex-col sm:table-row">
-            <TableCell colSpan={2} className="text-center">
+            <TableCell colSpan={5} className="text-center">
               <span>Showing {transactions.length} transactions</span>
-            </TableCell>
-            <TableCell className="text-center">
-              <span>Page X of Y</span>
-            </TableCell>
-            <TableCell colSpan={2}>
-              <div className="flex justify-center gap-1.5">
-                <IconButton>
-                  <ChevronsLeft className="size-4" />
-                </IconButton>
-                <IconButton>
-                  <ChevronLeft className="size-4" />
-                </IconButton>
-                <IconButton>
-                  <ChevronRight className="size-4" />
-                </IconButton>
-                <IconButton>
-                  <ChevronsRight className="size-4" />
-                </IconButton>
-              </div>
             </TableCell>
           </tr>
         </tfoot>
       </Table>
-      {!transparent && (
+      {openEdit && (
         <div
         className='fixed z-40 inset-0 bg-slate-950/70 cursor-pointer'
-        onClick={handleCloseOverlay}
         />
-      )}
+        )}
+        {openDelete && (
+        <div
+        className='fixed z-40 inset-0 bg-slate-950/70 cursor-pointer'
+        />
+        )}
     </div>
   );
 }

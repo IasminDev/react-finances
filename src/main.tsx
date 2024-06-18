@@ -59,7 +59,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/financial-goals",
-    element: <FinancialGoals />,
+    element: 
+      <SelectProvider>
+        <FinancialGoals />
+      </SelectProvider>
   },
   {
     path: "/debt",
