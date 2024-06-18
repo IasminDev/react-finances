@@ -5,6 +5,7 @@ import { NavLink } from "../../components/ui/nav-link";
 import { InputPassword } from "../../components/ui/input-password";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from '../../lib/server'
 
 export function CreateAccount() {
   const navigate = useNavigate();
@@ -44,12 +45,28 @@ export function CreateAccount() {
       setInfoConfirmPassword("");
     }
 
-    navigate("/dashboard");
+    api.post('/users', {
+      name,
+      email,
+      password,
+      plan: 'Basic'   
+    }).then(function(response) {
+      console.log(response)
+      navigate("/log-in-account");
+    }).catch(function(error) {
+      console.log(error)
+      setError("Unable to create your account");      
+    })
+    
     setInfoName("");
     setInfoEmail("");
     setInfoPassword("");
     setInfoConfirmPassword("");
+    setError("");
   };
+ 
+
+
   const validate = () => {
     if (password !== confirmPassword) {
       setError("Passwords don't match");
@@ -57,6 +74,7 @@ export function CreateAccount() {
       setError("");
     }
   };
+
 
   return (
     <div className="flex flex-col gap-5">

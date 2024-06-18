@@ -5,19 +5,31 @@ import { Input } from "../../components/ui/input";
 import { InputPassword } from "../../components/ui/input-password";
 import { NavLink } from "../../components/ui/nav-link";
 import { useNavigate } from "react-router-dom"
+import { api } from "../../lib/server";
 
 export function LogInAccount() {
   const navigate = useNavigate()
   const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<boolean>();
+  const [info, setInfo] = useState<string>("");
 
   const handleClick = (email: string) => {
     if (email) {
       setError(false);
-      navigate("/dashboard")
     } else {
       setError(true);
     }
+    api.post("/login", {
+      email,
+      password
+    }).then(function(response) {
+      console.log(response.data.accessToken)
+      navigate("/dashboard")
+    }).catch(function(error) {
+      console.log(error)
+      setInfo("Can't sign in to your account");      
+    })
   }
   
   return (
@@ -40,9 +52,18 @@ export function LogInAccount() {
           </div>
           <div className="flex flex-col p-2 gap-2">
             <label id="Password">Password</label>
-            <InputPassword id="password" placeholder="Password..." />
+            <InputPassword 
+              id="password" 
+              placeholder="Password..."
+              value={password} 
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}/>
           </div>
-           {error && <p className="text-md text-center drop-shadow-lg">Please provide a valid email address.</p>}
+          <p className="text-md text-center drop-shadow-lg">
+            {info}
+          </p>
+          {error && <p className="text-md text-center drop-shadow-lg">Please provide a valid email address.</p>}
           <div className="flex flex-col p-2 gap-2">
               <Button onClick={() => handleClick(email)} disable={error}>Log in</Button>
           </div>
