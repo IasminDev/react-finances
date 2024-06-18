@@ -21,7 +21,7 @@ export function InputPassword({ empty, ...props }: InputProps) {
         {...props}
         required
         type={inputType}
-        maxLength={8}
+        minLength={8}
         className={twMerge(
           "py-3 px-1.5 bg-transparent rounded-md placeholder-slate-400 flex-1 outline-none border-0 text-sm"
         )}

@@ -36,6 +36,8 @@ export function FinancialGoals() {
   const [infoValue, setInfoValue] = useState<string>("");
   const [infoDate, setInfoDate] = useState<string>("");
   const [transparent, setTransparent] = useState<boolean>(true);
+  const [modal, setModal] = useState<boolean>(false);
+  const [modalIndex, setModalIndex] = useState<number | null>(null);
 
   const handleInsert = () => {
     if (!description) {
@@ -71,12 +73,16 @@ export function FinancialGoals() {
     setInfoValue("");
   };
 
-  const handleOpenOverlay = () => {
+  const handleOpenOverlay = (index : number) => {
     setTransparent(false);
+    setModal(true);
+    setModalIndex(index);
   };
 
   const handleCloseOverlay = () =>{
     setTransparent(true);
+    setModal(false);
+    setModalIndex(null);
   };
 
   return (
@@ -152,6 +158,7 @@ export function FinancialGoals() {
           </tr>
         </thead>
         <tbody>
+        
         {goals.map((goal, index) => (
           <TableRow key={index} className="flex flex-col p-2 sm:hidden">
             <div className="flex justify-between">
@@ -177,23 +184,26 @@ export function FinancialGoals() {
             </div>
             <TableCell className="flex items-center">
               <IconButton>
-                <MoreHorizontal onClick={handleOpenOverlay} className="size-4" />
+                <MoreHorizontal onClick={()=> handleOpenOverlay(index)} className="size-4" />
               </IconButton>
+              {modal && modalIndex === index &&(
               <EditOrDelete transparent={transparent}/>
+              )}
             </TableCell>
           </TableRow>
             ))}
         {goals.map((goal, index) => (
-    
           <TableRow key={index} className="hidden sm:table-row">
             <TableCell>{goal.description}</TableCell>
             <TableCell>$ {goal.value.toFixed(2)}</TableCell>
             <TableCell>{dayjs(goal.date).format("MM/DD/YYYY")}</TableCell>
             <TableCell>
               <IconButton>
-                <MoreHorizontal  onClick={handleOpenOverlay} className="size-4" />
+                <MoreHorizontal onClick={()=>handleOpenOverlay(index)} className="size-4" />
               </IconButton>
+            {modal && modalIndex === index&&(
             <EditOrDelete transparent={transparent}/>
+            )}
             </TableCell>
           </TableRow>
             ))}

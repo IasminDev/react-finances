@@ -21,9 +21,8 @@ npm i @vercel/speed-insights
 
 
 <!-- 
-
-Logica dos botões: quando clica no botão de lixeira, aparecer um popout com um "p" pedindo confirmação e dois botões, um de confrimar e um de cancelar ele some a linha da tabela que esta selecionada
-Botão de editar vai aparecer um popout na tela com 4 inputs que recebm o valor original da tabela e vai ter um botão de 
+Logica dos botões: quando clica no botão de lixeira, aparecer um popout com um "p" pedindo confirmação e dois botões, um de confirmar e um de cancelar ele some a linha da tabela que esta selecionada
+Botão de editar vai aparecer um popout na tela com 4 inputs que recebem o valor original da tabela e vai ter um botão de 
 confirmação e de cancelamento
 caso clique fora do popout e contenha alterações aparecer uma mensagem, um p, que vai dizer que contem alterações e confirme ou cancele
 caso clique fora do popout e nn contenha alterações manter informações na tabela e sumir o popout

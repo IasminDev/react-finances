@@ -21,6 +21,7 @@ import {
   ChevronsRight,
   MoreHorizontal,
 } from "lucide-react";
+import { EditOrDelete } from "../../components/popout/editOrDelete";
 
 interface Transaction {
   description: string;
@@ -39,6 +40,18 @@ export function Savings() {
   const [infoAmount, setInfoAmount] = useState<string>("");
   const [infoSelect, setInfoSelect] = useState<string>("");
   const [infoDate, setInfoDate] = useState<string>("");
+  const [transparent, setTransparent] = useState<boolean>(true);
+  const [modal, setModal] = useState<boolean>(false);
+  const [modalIndex, setModalIndex] = useState<number | null>(null);
+
+  type Status = "Paid" | "Pending" | "Cancelled" | "Overdue" | "";
+  const statusColorMap: { [key in Status]: string } = {
+    Paid: "bg-green-500",
+    Pending: "bg-blue-500",
+    Cancelled: "bg-yellow-500",
+    Overdue: "bg-red-500",
+    "": "bg-gray-500", // Default color if no status is selected
+  };
 
   const handleInsert = () => {
     if (!description) {
@@ -84,6 +97,18 @@ export function Savings() {
     setInfoDate("");
   };
 
+    const handleOpenOverlay = (index : number) => {
+    setTransparent(false);
+    setModal(true);
+    setModalIndex(index);
+  };
+
+    const handleCloseOverlay = () => {
+      setTransparent(true);
+      setModal(false);
+      setModalIndex(null);
+  };
+
   return (
     <div className="flex flex-col gap-5">
       <Header />
@@ -124,6 +149,7 @@ export function Savings() {
           <label id="status">Status</label>
           <DropDown empty={!!infoSelect} />
         </div>
+
         <div className="flex flex-col p-2 gap-2">
           <label id="date">Date</label>
           <Input
@@ -149,6 +175,7 @@ export function Savings() {
       >
         Insert
       </Button>
+      
       <Table>
         <thead>
           <tr className="hidden sm:table-row border-b border-slate-400/10">
@@ -159,9 +186,81 @@ export function Savings() {
             <TableHeader style={{ width: 64 }}></TableHeader>
           </tr>
         </thead>
-        {transactions.map((transaction, index) => (
-          <TransactionRow key={index} transaction={transaction} />
-        ))}
+
+        <tbody>
+        {transactions.map((transaction, index) => {
+          const transactionStatus = transaction.status as Status;
+          return(
+             <TableRow key={index} className="flex flex-col p-2 sm:hidden">
+              <div className="flex justify-between">
+                <TableHeader>Transaction</TableHeader>
+                <TableCell>{transaction.description}</TableCell>
+              </div>
+              <div className="flex justify-center">
+                <hr className="w-60 p-1 border-white/10" />
+              </div>
+              <div className="flex justify-between">
+                <TableHeader>Amount</TableHeader>
+                <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
+              </div>
+              <div className="flex justify-center">
+                <hr className="w-60 p-1 border-white/10" />
+              </div>
+              <div className="flex justify-between">
+                <TableHeader>Status</TableHeader>
+                <TableCell>
+                  <StatusSpan className={statusColorMap[transactionStatus]}>
+                    {transaction.status}
+                  </StatusSpan>
+                </TableCell>
+              </div>
+              <div className="flex justify-center">
+                <hr className="w-60 p-1 border-white/10" />
+              </div>
+              <div className="flex justify-between">
+                <TableHeader>Date</TableHeader>
+                <TableCell>{dayjs(transaction.date).format("MM/DD/YYYY")}</TableCell>
+              </div>
+              <div className="flex justify-center">
+                <hr className="w-60 p-1 border-white/10" />
+              </div>
+              <TableCell className="flex items-center">
+                <IconButton>
+                  <MoreHorizontal onClick={() =>handleOpenOverlay(index)} className="size-4" />
+                </IconButton>
+                {modal && modalIndex === index &&(
+                  <EditOrDelete transparent={transparent}/>
+                )}
+              </TableCell>
+            </TableRow>
+            )}
+          )}
+
+        {transactions.map((transaction, index) => {
+          const transactionStatus = transaction.status as Status;
+          return(
+            <TableRow key={index} className="hidden sm:table-row">
+            <TableCell>{transaction.description}</TableCell>
+            <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
+            <TableCell>
+              <StatusSpan className={statusColorMap[transactionStatus]}>
+                {transaction.status}
+              </StatusSpan>
+            </TableCell>
+            <TableCell>{dayjs(transaction.date).format("MM/DD/YYYY")}</TableCell>
+            <TableCell>
+              <IconButton>
+                <MoreHorizontal onClick={() => handleOpenOverlay(index)} className="size-4" />
+              </IconButton>
+              {modal && modalIndex === index &&(
+                <EditOrDelete transparent={transparent}/>
+              )}
+            </TableCell>
+          </TableRow>
+          )}
+        )}
+        </tbody>
+
         <tfoot>
           <tr className="flex flex-col sm:table-row">
             <TableCell colSpan={2} className="text-center">
@@ -189,77 +288,12 @@ export function Savings() {
           </tr>
         </tfoot>
       </Table>
+      {!transparent && (
+        <div
+        className='fixed z-40 inset-0 bg-slate-950/70 cursor-pointer'
+        onClick={handleCloseOverlay}
+        />
+      )}
     </div>
-  );
-}
-
-function TransactionRow({ transaction }: { transaction: Transaction }) {
-  type Status = "Paid" | "Pending" | "Cancelled" | "Overdue" | "";
-  const statusColorMap: { [key in Status]: string } = {
-    Paid: "bg-green-500",
-    Pending: "bg-blue-500",
-    Cancelled: "bg-yellow-500",
-    Overdue: "bg-red-500",
-    "": "bg-gray-500", // Default color if no status is selected
-  };
-  const transactionStatus = transaction.status as Status;
-  return (
-    <tbody>
-      <TableRow className="flex flex-col p-2 sm:hidden">
-        <div className="flex justify-between">
-          <TableHeader>Transaction</TableHeader>
-          <TableCell>{transaction.description}</TableCell>
-        </div>
-        <div className="flex justify-center">
-          <hr className="w-60 p-1 border-white/10" />
-        </div>
-        <div className="flex justify-between">
-          <TableHeader>Amount</TableHeader>
-          <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
-        </div>
-        <div className="flex justify-center">
-          <hr className="w-60 p-1 border-white/10" />
-        </div>
-        <div className="flex justify-between">
-          <TableHeader>Status</TableHeader>
-          <TableCell>
-            <StatusSpan className={statusColorMap[transactionStatus]}>
-              {transaction.status}
-            </StatusSpan>
-          </TableCell>
-        </div>
-        <div className="flex justify-center">
-          <hr className="w-60 p-1 border-white/10" />
-        </div>
-        <div className="flex justify-between">
-          <TableHeader>Date</TableHeader>
-          <TableCell>{dayjs(transaction.date).format("MM/DD/YYYY")}</TableCell>
-        </div>
-        <div className="flex justify-center">
-          <hr className="w-60 p-1 border-white/10" />
-        </div>
-        <TableCell className="flex items-center">
-          <IconButton>
-            <MoreHorizontal className="size-4" />
-          </IconButton>
-        </TableCell>
-      </TableRow>
-
-      <TableRow className="hidden sm:table-row">
-        <TableCell>{transaction.description}</TableCell>
-        <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
-        <TableCell>
-          <StatusSpan className={statusColorMap[transactionStatus]}>
-            {transaction.status}
-          </StatusSpan>
-        </TableCell>
-        <TableCell>{dayjs(transaction.date).format("MM/DD/YYYY")}</TableCell>
-        <TableCell>
-          <IconButton>
-            <MoreHorizontal className="size-4" />
-          </IconButton>
-        </TableCell>
-      </TableRow>
-    </tbody>
   );
 }

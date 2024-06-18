@@ -106,7 +106,7 @@ export function Home() {
             exclusive plans with advanced features:
           </p>
 
-          <section className="flex flex-col flex-wrap sm:flex-row gap-4 p-2 justify-center items-center">
+          <section className="flex flex-col flex-wrap sm:flex-row gap-4 p-2 items-center justify-center lg:items-start">
             <div
               className={`text-center items-center w-80 flex flex-col flex-wrap p-2 gap-3 ${
                 showBasic ? "border" : " "

@@ -100,7 +100,7 @@ export function CreateAccount() {
             <label id="Password">
               Password{" "}
               <span className="text-xs text-slate-400 ">
-                (max 8 characters)
+                (min 8 characters)
               </span>
             </label>
             <InputPassword
@@ -121,7 +121,7 @@ export function CreateAccount() {
             <label id="Password">
               Confirm Password{" "}
               <span className="text-xs text-slate-400 ">
-                (max 8 characters)
+                (min 8 characters)
               </span>
             </label>
             <InputPassword
