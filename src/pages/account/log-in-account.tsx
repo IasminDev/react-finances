@@ -11,20 +11,14 @@ export function LogInAccount() {
   const navigate = useNavigate()
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<boolean>();
   const [info, setInfo] = useState<string>("");
 
   const handleClick = (email: string) => {
-    if (email) {
-      setError(false);
-    } else {
-      setError(true);
-    }
     api.post("/login", {
       email,
       password
     }).then(function(response) {
-      console.log(response.data.accessToken)
+      localStorage.setItem("user",response.data.accessToken)
       navigate("/dashboard")
     }).catch(function(error) {
       console.log(error)
@@ -63,9 +57,8 @@ export function LogInAccount() {
           <p className="text-md text-center drop-shadow-lg">
             {info}
           </p>
-          {error && <p className="text-md text-center drop-shadow-lg">Please provide a valid email address.</p>}
           <div className="flex flex-col p-2 gap-2">
-              <Button onClick={() => handleClick(email)} disable={error}>Log in</Button>
+              <Button onClick={() => handleClick(email)} disable={!!info}>Log in</Button>
           </div>
         </div>
         <h3 className="flex text-base items-center gap-1">

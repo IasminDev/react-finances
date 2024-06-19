@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface CardProps {
     id: number;
@@ -10,10 +11,14 @@ interface CardProps {
   }
 
 export function Card({id, option, srcImg, resources}:CardProps){
+    
+    const user = localStorage.getItem("user")
+    const navigate = useNavigate()
     const [plan, setPlan] = useState(0)
     useEffect(() => {
     setPlan(1)
     })
+    
     return(
         <div className='flex flex-col w-72 h-[400px] bg-slate-400/10 border border-white/10 rounded-md items-center gap-3 p-2'>
             <div key={id} className='flex flex-col w-64 border-b border-slate-400 items-center gap-1 p-1'>
@@ -28,9 +33,9 @@ export function Card({id, option, srcImg, resources}:CardProps){
                 ))}
             </div>
             <div className='flex items-center justify-center h-10'>
-                {id === plan 
+                {user && id === plan 
                     ? <h3 className='drop-shadow-2xl text-slate-50 text-md font-semibold'>Actual Plan</h3> 
-                    : <Button>Get Plan</Button>}
+                    : <Button onClick={() => {if(user){navigate("/dashboard")} else{navigate("/create-account")}}}>Get Plan</Button>}
             </div>
             </div>
         </div>

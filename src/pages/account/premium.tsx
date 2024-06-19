@@ -3,6 +3,7 @@ import { Card } from "../../components/utils/card";
 import Data from "../../constants/premium-plan.json"
 
 export function Premium(){
+
     return(
         <div className='flex flex-col h-screen items-center gap-5'>        
             <Header/>

@@ -79,7 +79,7 @@ export function Edit({ openEdit, goals, setOpenEditProps }: EditProps){
       </div>
       
                 
-                <p className="mb-4 text-center">Are you sure you want to edit this transaction?</p>
+                <p className="mb-4 text-center">Are you sure you want to edit this {goals ? "goal" : "transaction"}?</p>
                 <div className="flex space-x-2">
                     <Button onClick={handleEdit}>Confirm</Button>
                     <Button onClick={() => setOpenEditProps(false)}>Cancel</Button>

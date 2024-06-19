@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelectContext } from "../../context/drop-down-context";
+import { jwtDecode } from "jwt-decode";
+import { api } from "../../lib/server";
 
 import { Header } from "../../components/header/header";
 import { Input } from "../../components/ui/input";
@@ -21,6 +23,7 @@ import {
 
 import { Delete } from "../../components/popout/delete";
 import { Edit } from "../../components/popout/edit";
+import { useNavigate } from "react-router-dom";
 
 interface Transaction {
   description: string;
@@ -30,6 +33,9 @@ interface Transaction {
 }
 
 export function Savings() {
+  const user = localStorage.getItem("user")
+  const navigate = useNavigate();
+
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [description, setDescription] = useState<string>("");
   const [amount, setAmount] = useState<string | number>("");
@@ -53,61 +59,102 @@ export function Savings() {
     "": "bg-gray-500", // Default color if no status is selected
   };
 
+  useEffect(() => {
+    if (user) {
+      try {
+        const decoded: any = jwtDecode(user);
+        const userId = decoded?.id;
+
+        if (userId) {
+          api.get(`/${userId}/revenues`, {
+            headers: { token: `Bearer ${user}` }
+          })
+          .then(function(response) {
+            console.log(response.data);
+            setTransactions(response.data);
+          })
+          .catch(function(error) {
+            console.log("Error fetching revenues:", error);
+          });
+        }
+      } catch (error) {
+        console.log("Error decoding token:", error);
+      }
+    } else {
+      navigate("/log-in-account");
+    }
+  }, [user, navigate]);
+
   const handleInsert = () => {
-    if (!description) {
-      setInfoDesc("Please enter a description");
-      return;
-    } else {
+    if(user){
+      
+      if (!description) {
+        setInfoDesc("Please enter a description");
+        return;
+      } else {
+        setInfoDesc("");
+      }
+      if (typeof amount !== "number" || amount <= 0 || isNaN(amount)) {
+        setInfoAmount("Please enter a valid amount greater than 0");
+        return;
+      } else {
+        setInfoAmount("");
+      }
+      if (!select) {
+        setInfoSelect("Please select a status");
+        return;
+      } else {
+        setInfoSelect("");
+      }
+      if (!date) {
+        setInfoDate("Please select a date");
+        return;
+      } else {
+        setInfoDate("");
+      }
+  
+      const newTransaction: Transaction = {
+        description,
+        amount,
+        status: select,
+        date,
+      };
+  
+      setTransactions([...transactions, newTransaction]);
+      setDescription("");
+      setAmount("");
+      setDate("");
+      setSelect("");
       setInfoDesc("");
-    }
-    if (typeof amount !== "number" || amount <= 0 || isNaN(amount)) {
-      setInfoAmount("Please enter a valid amount greater than 0");
-      return;
-    } else {
       setInfoAmount("");
-    }
-    if (!select) {
-      setInfoSelect("Please select a status");
-      return;
-    } else {
       setInfoSelect("");
-    }
-    if (!date) {
-      setInfoDate("Please select a date");
-      return;
-    } else {
       setInfoDate("");
     }
-
-    const newTransaction: Transaction = {
-      description,
-      amount,
-      status: select,
-      date,
-    };
-
-    setTransactions([...transactions, newTransaction]);
-    setDescription("");
-    setAmount("");
-    setDate("");
-    setSelect("");
-    setInfoDesc("");
-    setInfoAmount("");
-    setInfoSelect("");
-    setInfoDate("");
+    else{
+      navigate("/log-in-account")
+    }
   };
 
-    
   const handleOpenDelete = (index : number) => {
-    setOpenDelete(true);
-    setModal(true);
-    setModalIndex(index);
+   if(user){
+     setOpenDelete(true);
+     setModal(true);
+     setModalIndex(index);
+   }
+   else{
+    navigate("/log-in-account")
+   }
   };
 
   const handleOpenEdit = (index : number) => {
-    setOpenEdit(true);
-    setModal(true);
-    setModalIndex(index);
+    if(user){
+      setOpenEdit(true);
+      setModal(true);
+      setModalIndex(index);
+    }
+    else{
+     navigate("/log-in-account")
+    }
   };
 
   return (

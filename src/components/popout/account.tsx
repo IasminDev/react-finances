@@ -8,11 +8,16 @@ import {
   LogOutIcon,
   SettingsIcon,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface AccountProps extends ComponentProps<"div"> {
   transparent?: boolean;
 }
 export function Account({ transparent }: AccountProps) {
+  
+  const user = localStorage.getItem("user")
+  const navigate = useNavigate()
+  
   return (
     <div
       className={twMerge(
@@ -30,17 +35,17 @@ export function Account({ transparent }: AccountProps) {
           <MenuSection>Your Account</MenuSection>
           <NavLink href="/log-in-account">
             <LogInIcon className="h-4 w-4" />
-            Log In
+            Sign In
           </NavLink>
-          <NavLink href="/dashboard">
+          <NavLink onClick={() => {if(user){navigate("/dashboard")} else{navigate("/log-in-account")}}}>
             <LayoutDashboardIcon className="h-4 w-4" />
             Dashboard
           </NavLink>
-          <NavLink href="/account-settings">
+          <NavLink onClick={() => {if(user){navigate("/account-settings")}else{navigate("/log-in-account")}}}>
             <SettingsIcon className="h-4 w-4" />
             Settings
           </NavLink>
-          <NavLink href="/">
+          <NavLink onClick={() => {localStorage.removeItem("user"); navigate("/")}}>
             <LogOutIcon className="h-4 w-4" />
             Sign Out
           </NavLink>

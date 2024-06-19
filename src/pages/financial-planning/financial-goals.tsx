@@ -19,6 +19,7 @@ import {
 
 import { Delete } from "../../components/popout/delete";
 import { Edit } from "../../components/popout/edit";
+import { useNavigate } from "react-router-dom";
 
 interface Goal {
   description: string;
@@ -28,6 +29,10 @@ interface Goal {
 
 
 export function FinancialGoals() {
+
+  const user = localStorage.getItem("user")
+  const navigate = useNavigate()
+
   const [goals, setGoals] = useState<Goal[]>([]);
   const [description, setDescription] = useState<string>("");
   const [value, setValue] = useState<string | number>("");
@@ -41,49 +46,64 @@ export function FinancialGoals() {
   const[openEdit, setOpenEdit] = useState<boolean>(false);
 
   const handleInsert = () => {
-    if (!description) {
-      setInfoDesc("Please enter a description");
-      return;
-    } else {
-      setInfoDesc("");
-    }
-    if (typeof value !== "number" || value <= 0 || isNaN(value)) {
-      setInfoValue("Please enter a valid value greater than 0");
-      return;
-    } else {
-      setInfoValue("");
-    }
-    if (!date) {
-      setInfoDate("Please select a date");
-      return;
-    } else {
-      setInfoDate("");
-    }
-
-    const newGoal: Goal = {
-      description,
-      value,
-      date,
-    };
-
-    setGoals([...goals, newGoal]);
-    setDescription("");
-    setValue("");
-    setDate("");
-    setInfoDesc("");
-    setInfoValue("");
+   if(user){
+     if (!description) {
+       setInfoDesc("Please enter a description");
+       return;
+     } else {
+       setInfoDesc("");
+     }
+     if (typeof value !== "number" || value <= 0 || isNaN(value)) {
+       setInfoValue("Please enter a valid value greater than 0");
+       return;
+     } else {
+       setInfoValue("");
+     }
+     if (!date) {
+       setInfoDate("Please select a date");
+       return;
+     } else {
+       setInfoDate("");
+     }
+ 
+     const newGoal: Goal = {
+       description,
+       value,
+       date,
+     };
+ 
+     setGoals([...goals, newGoal]);
+     setDescription("");
+     setValue("");
+     setDate("");
+     setInfoDesc("");
+     setInfoValue("");
+   }
+   else{
+    navigate("/log-in-account")
+   }
   };
 
   const handleOpenDelete = (index : number) => {
-    setOpenDelete(true);
-    setModal(true);
-    setModalIndex(index);
+    if(user){
+      setOpenDelete(true);
+      setModal(true);
+      setModalIndex(index);
+    }
+   else{
+    navigate("/log-in-account")
+   }
   };
 
   const handleOpenEdit = (index : number) => {
-    setOpenEdit(true);
-    setModal(true);
-    setModalIndex(index);
+    if(user){
+      setOpenEdit(true);
+      setModal(true);
+      setModalIndex(index);
+    }
+    else{
+     navigate("/log-in-account")
+    }
   };
 
   return (
@@ -194,7 +214,7 @@ export function FinancialGoals() {
                 <Trash2Icon onClick={() => handleOpenDelete(index)} className="size-4" />
             </IconButton>
               {modal && modalIndex === index && (
-                <Delete openDelete={openDelete} setOpenDeleteProps={setOpenDelete}/>
+                <Delete goals={true} openDelete={openDelete} setOpenDeleteProps={setOpenDelete}/>
               )}
             </TableCell>
           </TableRow>
