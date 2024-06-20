@@ -67,7 +67,7 @@ export function Debt() {
             return response.data;
           })
           .then((data) => {
-            setTransactions(data.savings);
+            setTransactions(data.debts);
           })
           .catch(function (error) {
             console.log("Error fetching debts:", error);
@@ -225,7 +225,7 @@ export function Debt() {
           />
         </div>
       </div>
-      <p className="text-md text-center drop-shadow-lg">
+      <p className="text-md text-center text-red-500 drop-shadow-lg">
         {infoDesc}
         {infoAmount}
         {infoSelect}
@@ -298,8 +298,13 @@ export function Debt() {
                   </IconButton>
                   {modal && modalIndex === index && (
                     <Edit
-                      openEdit={openEdit}
+                      debts={true}
+                      debtId={transaction.id}
+                      userId={userId || undefined}
+                      userToken={user || undefined}
                       transaction={transactions[modalIndex] || undefined}
+                      selectValue={select}
+                      openEdit={openEdit}
                       setOpenEditProps={setOpenEdit}
                     />
                   )}
@@ -311,6 +316,10 @@ export function Debt() {
                   </IconButton>
                   {modal && modalIndex === index && (
                     <Delete
+                      debts={true}
+                      debtId={transaction.id}
+                      userId={userId || undefined}
+                      userToken={user || undefined}
                       openDelete={openDelete}
                       setOpenDeleteProps={setOpenDelete}
                     />
@@ -343,9 +352,14 @@ export function Debt() {
                   </IconButton>
                   {modal && modalIndex === index && (
                     <Edit
-                      openEdit={openEdit}
-                      transaction={transactions[modalIndex] || undefined}
-                      setOpenEditProps={setOpenEdit}
+                    debts={true}
+                    debtId={transaction.id}
+                    userId={userId || undefined}
+                    userToken={user || undefined}
+                    transaction={transactions[modalIndex] || undefined}
+                    selectValue={select}
+                    openEdit={openEdit}
+                    setOpenEditProps={setOpenEdit}
                     />
                   )}
                   <IconButton>
@@ -356,6 +370,10 @@ export function Debt() {
                   </IconButton>
                   {modal && modalIndex === index && (
                     <Delete
+                      debts={true}
+                      debtId={transaction.id}
+                      userId={userId || undefined}
+                      userToken={user || undefined}
                       openDelete={openDelete}
                       setOpenDeleteProps={setOpenDelete}
                     />

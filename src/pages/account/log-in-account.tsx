@@ -54,7 +54,7 @@ export function LogInAccount() {
                 setPassword(e.target.value);
               }}/>
           </div>
-          <p className="text-md text-center drop-shadow-lg">
+          <p className="text-md text-center text-red-500 drop-shadow-lg">
             {info}
           </p>
           <div className="flex flex-col p-2 gap-2">

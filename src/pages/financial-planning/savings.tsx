@@ -235,7 +235,7 @@ export function Savings() {
           />
         </div>
       </div>
-      <p className="text-md text-center drop-shadow-lg">
+      <p className="text-md text-center text-red-500 drop-shadow-lg">
         {infoDesc}
         {infoAmount}
         {infoSelect}

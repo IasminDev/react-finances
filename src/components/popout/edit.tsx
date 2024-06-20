@@ -20,9 +20,12 @@ dayjs.extend(utc);
 
 interface EditProps extends ComponentProps<"div"> {
   openEdit?: boolean;
-  goals?: boolean;
   savings?: boolean;
   revenueId?: number;
+  debts?: boolean;
+  debtId?: number;
+  goals?: boolean;
+  goalId?: number;
   userId?: string;
   userToken?: string;
   selectValue?: string;
@@ -33,9 +36,12 @@ interface EditProps extends ComponentProps<"div"> {
 
 export function Edit({
   openEdit,
-  goals,
   savings,
   revenueId,
+  debts,
+  debtId,
+  goals,
+  goalId,
   userId,
   userToken,
   selectValue,
@@ -46,11 +52,14 @@ export function Edit({
   const [description, setDescription] = useState(
     transaction?.description || goal?.description || ""
   );
+  const [value, setValue] = useState(
+    goal?.value || ""
+  );
   const [amount, setAmount] = useState<string | number>(
-    transaction?.description || goal?.description || ""
+    transaction?.amount || ""
   );
   const [date, setDate] = useState(
-    transaction?.description || goal?.description || ""
+    transaction?.date || goal?.date || ""
   );
   const { select, setSelect } = useSelectContext();
 
@@ -82,6 +91,60 @@ export function Edit({
           setAmount("");
           setDate("");
           setSelect("");
+          setOpenEditProps(false);
+          return updatedTransaction;
+        })
+        .catch((error) => {
+          console.error("Error updating transaction:", error);
+        });
+    }
+    else if (debts) {
+      const formatDateForBackend = (date: string): string => {
+        const formattedDate = dayjs(date).utc().format();
+        return formattedDate;
+      };
+      const updateData = {
+        description: description,
+        amount: amount,
+        date: formatDateForBackend(date),
+        status: select,
+      };
+      api
+        .put(`/${userId}/debts/${debtId}`, updateData, {
+          headers: { token: `Bearer ${userToken}` },
+        })
+        .then((response) => {
+          const updatedTransaction = response.data.debt;
+          setDescription("");
+          setAmount("");
+          setDate("");
+          setSelect("");
+          setOpenEditProps(false);
+          return updatedTransaction;
+        })
+        .catch((error) => {
+          console.error("Error updating transaction:", error);
+        });
+    }
+    else if (goals) {
+      const formatDateForBackend = (date: string): string => {
+        const formattedDate = dayjs(date).utc().format();
+        return formattedDate;
+      };
+      const updateData = {
+        description: description,
+        value: value,
+        date: formatDateForBackend(date),
+      };
+      api
+        .put(`/${userId}/goals/${goalId}`, updateData, {
+          headers: { token: `Bearer ${userToken}` },
+        })
+        .then((response) => {
+          const updatedTransaction = response.data.goal;
+          setDescription("");
+          setValue("");
+          setDate("");
           setOpenEditProps(false);
           return updatedTransaction;
         })
@@ -121,10 +184,16 @@ export function Edit({
               type="number"
               id="amount"
               placeholder="Amount"
-              value={amount.toString()}
+              value={amount.toString()||value.toString()}
               onChange={(e) => {
-                const newAmount = parseFloat(e.target.value);
-                setAmount(isNaN(newAmount) ? "" : newAmount);
+                if(savings || debts){
+                  const newAmount = parseFloat(e.target.value);
+                  setAmount(isNaN(newAmount) ? "" : newAmount);
+                }
+                if(goals){
+                  const newValue = parseFloat(e.target.value);
+                  setValue(isNaN(newValue) ? "" : newValue);
+                }
               }}
             />
           </div>

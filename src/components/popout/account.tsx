@@ -13,9 +13,11 @@ import { useNavigate } from "react-router-dom";
 interface AccountProps extends ComponentProps<"div"> {
   transparent?: boolean;
 }
+
+
 export function Account({ transparent }: AccountProps) {
   
-  const user = localStorage.getItem("user")
+  const user = localStorage.getItem("user") as string | null;
   const navigate = useNavigate()
   
   return (

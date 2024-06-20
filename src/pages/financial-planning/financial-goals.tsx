@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Header } from "../../components/header/header";
 import { Input } from "../../components/ui/input";
@@ -16,15 +16,25 @@ import { PencilIcon, Trash2Icon } from "lucide-react";
 import { Delete } from "../../components/popout/delete";
 import { Edit } from "../../components/popout/edit";
 import { useNavigate } from "react-router-dom";
+import { DecodedToken } from "../../pages/financial-planning/savings";
+import { api } from "../../lib/server";
+import { jwtDecode } from "jwt-decode";
+
 
 export interface Goal {
+  id: number;
   description: string;
   value: number;
   date: string;
 }
 
 export function FinancialGoals() {
-  const user = localStorage.getItem("user");
+  const user = localStorage.getItem("user") as string | null;
+  const decoded: DecodedToken = user
+    ? jwtDecode<DecodedToken>(user)
+    : { id: null, token: "" };
+  const userId = decoded?.id;
+
   const navigate = useNavigate();
 
   const [goals, setGoals] = useState<Goal[]>([]);
@@ -39,7 +49,31 @@ export function FinancialGoals() {
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
 
+  useEffect(()=>{
+    if(user){
+      if(userId){
+        api
+        .get(`/${userId}/goals`,{
+          headers: {token: `Bearer ${user}`},
+        })
+        .then(function (response){
+          return response.data;
+        })
+        .then((data) => {
+          setGoals(data.goals);
+        })
+        .catch(function (error) {
+          console.log("Error fetching goals", error);
+        });
+      }
+    }
+    else{
+     navigate("/log-in-account");
+    }
+  }, [user, userId, navigate, goals])
+
   const handleInsert = () => {
+    
     if (user) {
       if (!description) {
         setInfoDesc("Please enter a description");
@@ -59,19 +93,44 @@ export function FinancialGoals() {
       } else {
         setInfoDate("");
       }
+      try {
+        if(userId){
+          api
+          .post(
+          `/${userId}/goals`,
+          {
+            description,
+            value,
+            date: new Date(date).toISOString(),
+          },
+          {
+            headers: { token: `Bearer ${user}` },
+          }
+          )
+          .then(function (response) {
+            console.log(response);
 
-      const newGoal: Goal = {
-        description,
-        value,
-        date,
-      };
-
-      setGoals([...goals, newGoal]);
-      setDescription("");
-      setValue("");
-      setDate("");
-      setInfoDesc("");
-      setInfoValue("");
+            const newGoal: Goal = {
+              id: response.data.id,
+              description,
+              value,
+              date,
+            };
+      
+            setGoals([...goals, newGoal]);
+            setDescription("");
+            setValue("");
+            setDate("");
+            setInfoDesc("");
+            setInfoValue("");
+          })
+          .catch(function (error) {
+            console.log("Error fetching goals:", error);
+          });
+        }
+      } catch (error) {
+        console.log("Error decoding token:", error);
+      }
     } else {
       navigate("/log-in-account");
     }
@@ -147,7 +206,7 @@ export function FinancialGoals() {
           />
         </div>
       </div>
-      <p className="text-md text-center drop-shadow-lg">
+      <p className="text-md text-center text-red-500 drop-shadow-lg">
         {infoDesc}
         {infoValue}
         {infoDate}
@@ -203,8 +262,11 @@ export function FinancialGoals() {
                 {modal && modalIndex === index && (
                   <Edit
                     goals={true}
-                    openEdit={openEdit}
+                    goalId={goal.id}
+                    userId={userId || undefined}
+                    userToken={user || undefined}
                     goal={goals[modalIndex] || undefined}
+                    openEdit={openEdit}
                     setOpenEditProps={setOpenEdit}
                   />
                 )}
@@ -217,6 +279,9 @@ export function FinancialGoals() {
                 {modal && modalIndex === index && (
                   <Delete
                     goals={true}
+                    goalId={goal.id}
+                    userId={userId || undefined}
+                    userToken={user || undefined}
                     openDelete={openDelete}
                     setOpenDeleteProps={setOpenDelete}
                   />
@@ -239,8 +304,11 @@ export function FinancialGoals() {
                 {modal && modalIndex === index && (
                   <Edit
                     goals={true}
-                    openEdit={openEdit}
+                    goalId={goal.id}
+                    userId={userId || undefined}
+                    userToken={user || undefined}
                     goal={goals[modalIndex] || undefined}
+                    openEdit={openEdit}
                     setOpenEditProps={setOpenEdit}
                   />
                 )}
@@ -252,6 +320,10 @@ export function FinancialGoals() {
                 </IconButton>
                 {modal && modalIndex === index && (
                   <Delete
+                    goals={true}
+                    goalId={goal.id}
+                    userId={userId || undefined}
+                    userToken={user || undefined}
                     openDelete={openDelete}
                     setOpenDeleteProps={setOpenDelete}
                   />

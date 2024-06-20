@@ -5,9 +5,12 @@ import { api } from "../../lib/server";
 
 interface DeleteProps extends ComponentProps<"div"> {
   openDelete?: boolean;
-  goals?: boolean;
   savings?: boolean;
   revenueId?: number;
+  debts?: boolean;
+  debtId?: number;
+  goals?: boolean;
+  goalId?: number;
   userId?: string;
   userToken?: string;
   setOpenDeleteProps: Dispatch<SetStateAction<boolean>>;
@@ -15,9 +18,12 @@ interface DeleteProps extends ComponentProps<"div"> {
 
 export function Delete({
   openDelete,
-  goals,
   savings,
   revenueId,
+  debts,
+  debtId,
+  goals,
+  goalId,
   userId,
   userToken,
   setOpenDeleteProps,
@@ -37,6 +43,36 @@ export function Delete({
         });
     } else {
       console.error("Missing userId or revenueId");
+    }
+    if (debts) {
+      api
+        .delete(`/${userId}/debts/${debtId}`, {
+          headers: { token: `Bearer ${userToken}` },
+        })
+        .then(() => {
+          console.log(`Debt with ID ${debtId} deleted successfully`);
+          setOpenDeleteProps(false);
+        })
+        .catch((error) => {
+          console.error("Error deleting debt:", error);
+        });
+    } else {
+      console.error("Missing userId or debtId");
+    }
+    if (goals) {
+      api
+        .delete(`/${userId}/goals/${goalId}`, {
+          headers: { token: `Bearer ${userToken}` },
+        })
+        .then(() => {
+          console.log(`Goal with ID ${goalId} deleted successfully`);
+          setOpenDeleteProps(false);
+        })
+        .catch((error) => {
+          console.error("Error deleting goal:", error);
+        });
+    } else {
+      console.error("Missing userId or goalId");
     }
   };
 

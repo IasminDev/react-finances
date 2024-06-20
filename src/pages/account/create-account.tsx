@@ -156,7 +156,7 @@ export function CreateAccount() {
               placeholder="Confirm Password..."
             />
           </div>
-          <p className="text-md text-center drop-shadow-lg">
+          <p className="text-md text-center text-red-500 drop-shadow-lg">
             {error}
             <br />
             {infoName}
