@@ -16,24 +16,30 @@ import { TableRow } from "../../components/ui/table/table-row";
 import { TableCell } from "../../components/ui/table/table-cell";
 import { StatusSpan } from "../../components/ui/table/status";
 
-import {
-  PencilIcon,
-  Trash2Icon,
-} from "lucide-react";
+import { PencilIcon, Trash2Icon } from "lucide-react";
 
 import { Delete } from "../../components/popout/delete";
 import { Edit } from "../../components/popout/edit";
 import { useNavigate } from "react-router-dom";
 
-interface Transaction {
+export interface Transaction {
+  id: number;
   description: string;
   amount: number;
   status: string;
   date: string;
 }
-
+export interface DecodedToken {
+  id: string | null;
+  token: string;
+}
 export function Savings() {
-  const user = localStorage.getItem("user")
+  const user = localStorage.getItem("user") as string | null;
+  const decoded: DecodedToken = user
+    ? jwtDecode<DecodedToken>(user)
+    : { id: null, token: "" };
+  const userId = decoded?.id;
+
   const navigate = useNavigate();
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -47,8 +53,8 @@ export function Savings() {
   const [infoDate, setInfoDate] = useState<string>("");
   const [modal, setModal] = useState<boolean>(false);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
-  const[openDelete, setOpenDelete] = useState<boolean>(false);
-  const[openEdit, setOpenEdit] = useState<boolean>(false);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
 
   type Status = "Paid" | "Pending" | "Cancelled" | "Overdue" | "";
   const statusColorMap: { [key in Status]: string } = {
@@ -61,33 +67,28 @@ export function Savings() {
 
   useEffect(() => {
     if (user) {
-      try {
-        const decoded: any = jwtDecode(user);
-        const userId = decoded?.id;
-
-        if (userId) {
-          api.get(`/${userId}/revenues`, {
-            headers: { token: `Bearer ${user}` }
+      if (userId) {
+        api
+          .get(`/${userId}/revenues`, {
+            headers: { token: `Bearer ${user}` },
           })
-          .then(function(response) {
-            console.log(response.data);
-            setTransactions(response.data);
+          .then(function (response) {
+            return response.data;
           })
-          .catch(function(error) {
+          .then((data) => {
+            setTransactions(data.savings);
+          })
+          .catch(function (error) {
             console.log("Error fetching revenues:", error);
           });
-        }
-      } catch (error) {
-        console.log("Error decoding token:", error);
       }
     } else {
       navigate("/log-in-account");
     }
-  }, [user, navigate]);
+  }, [user, userId, navigate, transactions]);
 
   const handleInsert = () => {
-    if(user){
-      
+    if (user) {
       if (!description) {
         setInfoDesc("Please enter a description");
         return;
@@ -112,48 +113,72 @@ export function Savings() {
       } else {
         setInfoDate("");
       }
-  
-      const newTransaction: Transaction = {
-        description,
-        amount,
-        status: select,
-        date,
-      };
-  
-      setTransactions([...transactions, newTransaction]);
-      setDescription("");
-      setAmount("");
-      setDate("");
-      setSelect("");
-      setInfoDesc("");
-      setInfoAmount("");
-      setInfoSelect("");
-      setInfoDate("");
-    }
-    else{
-      navigate("/log-in-account")
+
+      try {
+        if (userId) {
+          api
+            .post(
+              `/${userId}/revenues`,
+              {
+                description,
+                amount,
+                status: select,
+                date: new Date(date).toISOString(),
+              },
+              {
+                headers: { token: `Bearer ${user}` },
+              }
+            )
+            .then(function (response) {
+              console.log(response);
+
+              const newTransaction: Transaction = {
+                id: response.data.id,
+                description,
+                amount,
+                status: select,
+                date,
+              };
+
+              setTransactions([...transactions, newTransaction]);
+              setDescription("");
+              setAmount("");
+              setDate("");
+              setSelect("");
+              setInfoDesc("");
+              setInfoAmount("");
+              setInfoSelect("");
+              setInfoDate("");
+            })
+            .catch(function (error) {
+              console.log("Error fetching revenues:", error);
+            });
+        }
+      } catch (error) {
+        console.log("Error decoding token:", error);
+      }
+    } else {
+      navigate("/log-in-account");
     }
   };
 
-  const handleOpenDelete = (index : number) => {
-   if(user){
-     setOpenDelete(true);
-     setModal(true);
-     setModalIndex(index);
-   }
-   else{
-    navigate("/log-in-account")
-   }
+  const handleOpenDelete = (index: number) => {
+    if (user) {
+      setOpenDelete(true);
+      setModal(true);
+      setModalIndex(index);
+    } else {
+      navigate("/log-in-account");
+    }
   };
 
-  const handleOpenEdit = (index : number) => {
-    if(user){
+  const handleOpenEdit = (index: number) => {
+    if (user) {
       setOpenEdit(true);
       setModal(true);
       setModalIndex(index);
-    }
-    else{
-     navigate("/log-in-account")
+    } else {
+      navigate("/log-in-account");
     }
   };
 
@@ -223,7 +248,7 @@ export function Savings() {
       >
         Insert
       </Button>
-      
+
       <Table>
         <thead>
           <tr className="hidden sm:table-row border-b border-slate-400/10">
@@ -236,89 +261,137 @@ export function Savings() {
         </thead>
 
         <tbody>
-        {transactions.map((transaction, index) => {
-          const transactionStatus = transaction.status as Status;
-          return(
-             <TableRow key={index} className="flex flex-col p-2 sm:hidden">
-              <div className="flex justify-between">
-                <TableHeader>Transaction</TableHeader>
+          {transactions.map((transaction, index) => {
+            const transactionStatus = transaction.status as Status;
+            return (
+              <TableRow key={index} className="flex flex-col p-2 sm:hidden">
+                <div className="flex justify-between">
+                  <TableHeader>Transaction</TableHeader>
+                  <TableCell>{transaction.description}</TableCell>
+                </div>
+                <div className="flex justify-center">
+                  <hr className="w-60 p-1 border-white/10" />
+                </div>
+                <div className="flex justify-between">
+                  <TableHeader>Amount</TableHeader>
+                  <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
+                </div>
+                <div className="flex justify-center">
+                  <hr className="w-60 p-1 border-white/10" />
+                </div>
+                <div className="flex justify-between">
+                  <TableHeader>Status</TableHeader>
+                  <TableCell>
+                    <StatusSpan className={statusColorMap[transactionStatus]}>
+                      {transaction.status}
+                    </StatusSpan>
+                  </TableCell>
+                </div>
+                <div className="flex justify-center">
+                  <hr className="w-60 p-1 border-white/10" />
+                </div>
+                <div className="flex justify-between">
+                  <TableHeader>Date</TableHeader>
+                  <TableCell>
+                    {dayjs(transaction.date).format("MM/DD/YYYY")}
+                  </TableCell>
+                </div>
+                <div className="flex justify-center">
+                  <hr className="w-60 p-1 border-white/10" />
+                </div>
+                <TableCell className="flex gap-3 items-center">
+                  <IconButton>
+                    <PencilIcon
+                      onClick={() => handleOpenEdit(index)}
+                      className="size-4"
+                    />
+                  </IconButton>
+                  {modal && modalIndex === index && (
+                    <Edit
+                      savings={true}
+                      revenueId={transaction.id}
+                      userId={userId || undefined}
+                      userToken={user || undefined}
+                      transaction={transactions[modalIndex] || undefined}
+                      selectValue={select}
+                      openEdit={openEdit}
+                      setOpenEditProps={setOpenEdit}
+                    />
+                  )}
+                  <IconButton>
+                    <Trash2Icon
+                      onClick={() => handleOpenDelete(index)}
+                      className="size-4"
+                    />
+                  </IconButton>
+                  {modal && modalIndex === index && (
+                    <Delete
+                      savings={true}
+                      revenueId={transaction.id}
+                      userId={userId || undefined}
+                      userToken={user || undefined}
+                      openDelete={openDelete}
+                      setOpenDeleteProps={setOpenDelete}
+                    />
+                  )}
+                </TableCell>
+              </TableRow>
+            );
+          })}
+
+          {transactions.map((transaction, index) => {
+            const transactionStatus = transaction.status as Status;
+            return (
+              <TableRow key={index} className="hidden sm:table-row">
                 <TableCell>{transaction.description}</TableCell>
-              </div>
-              <div className="flex justify-center">
-                <hr className="w-60 p-1 border-white/10" />
-              </div>
-              <div className="flex justify-between">
-                <TableHeader>Amount</TableHeader>
                 <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
-              </div>
-              <div className="flex justify-center">
-                <hr className="w-60 p-1 border-white/10" />
-              </div>
-              <div className="flex justify-between">
-                <TableHeader>Status</TableHeader>
                 <TableCell>
                   <StatusSpan className={statusColorMap[transactionStatus]}>
                     {transaction.status}
                   </StatusSpan>
                 </TableCell>
-              </div>
-              <div className="flex justify-center">
-                <hr className="w-60 p-1 border-white/10" />
-              </div>
-              <div className="flex justify-between">
-                <TableHeader>Date</TableHeader>
-                <TableCell>{dayjs(transaction.date).format("MM/DD/YYYY")}</TableCell>
-              </div>
-              <div className="flex justify-center">
-                <hr className="w-60 p-1 border-white/10" />
-              </div>
-              <TableCell className="flex gap-3 items-center">
-            <IconButton>
-                <PencilIcon onClick={() => handleOpenEdit(index)} className="size-4" />
-            </IconButton>
-            {modal && modalIndex === index && (
-                <Edit openEdit={openEdit} setOpenEditProps={setOpenEdit}/>
-              )}
-            <IconButton>
-                <Trash2Icon onClick={() => handleOpenDelete(index)} className="size-4" />
-            </IconButton>
-              {modal && modalIndex === index && (
-                <Delete openDelete={openDelete} setOpenDeleteProps={setOpenDelete}/>
-              )}
-            </TableCell>
-            </TableRow>
-            )}
-          )}
-
-        {transactions.map((transaction, index) => {
-          const transactionStatus = transaction.status as Status;
-          return(
-            <TableRow key={index} className="hidden sm:table-row">
-            <TableCell>{transaction.description}</TableCell>
-            <TableCell>$ {transaction.amount.toFixed(2)}</TableCell>
-            <TableCell>
-              <StatusSpan className={statusColorMap[transactionStatus]}>
-                {transaction.status}
-              </StatusSpan>
-            </TableCell>
-            <TableCell>{dayjs(transaction.date).format("MM/DD/YYYY")}</TableCell>
-            <TableCell className="flex gap-3 items-center">
-            <IconButton>
-                <PencilIcon onClick={() => handleOpenEdit(index)} className="size-4" />
-            </IconButton>
-            {modal && modalIndex === index && (
-                <Edit openEdit={openEdit} setOpenEditProps={setOpenEdit}/>
-              )}
-            <IconButton>
-                <Trash2Icon onClick={() => handleOpenDelete(index)} className="size-4" />
-            </IconButton>
-              {modal && modalIndex === index && (
-                <Delete openDelete={openDelete} setOpenDeleteProps={setOpenDelete}/>
-              )}
-            </TableCell>
-          </TableRow>
-          )}
-        )}
+                <TableCell>
+                  {dayjs(transaction.date).format("MM/DD/YYYY")}
+                </TableCell>
+                <TableCell className="flex gap-3 items-center">
+                  <IconButton>
+                    <PencilIcon
+                      onClick={() => handleOpenEdit(index)}
+                      className="size-4"
+                    />
+                  </IconButton>
+                  {modal && modalIndex === index && (
+                    <Edit
+                      savings={true}
+                      revenueId={transaction.id}
+                      userId={userId || undefined}
+                      userToken={user || undefined}
+                      transaction={transactions[modalIndex] || undefined}
+                      selectValue={select}
+                      openEdit={openEdit}
+                      setOpenEditProps={setOpenEdit}
+                    />
+                  )}
+                  <IconButton>
+                    <Trash2Icon
+                      onClick={() => handleOpenDelete(index)}
+                      className="size-4"
+                    />
+                  </IconButton>
+                  {modal && modalIndex === index && (
+                    <Delete
+                      savings={true}
+                      revenueId={transaction.id}
+                      userId={userId || undefined}
+                      userToken={user || undefined}
+                      openDelete={openDelete}
+                      setOpenDeleteProps={setOpenDelete}
+                    />
+                  )}
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </tbody>
 
         <tfoot>
@@ -330,15 +403,11 @@ export function Savings() {
         </tfoot>
       </Table>
       {openEdit && (
-        <div
-        className='fixed z-40 inset-0 bg-slate-950/70 cursor-pointer'
-        />
-        )}
-        {openDelete && (
-        <div
-        className='fixed z-40 inset-0 bg-slate-950/70 cursor-pointer'
-        />
-        )}
+        <div className="fixed z-40 inset-0 bg-slate-950/70 cursor-pointer" />
+      )}
+      {openDelete && (
+        <div className="fixed z-40 inset-0 bg-slate-950/70 cursor-pointer" />
+      )}
     </div>
   );
 }
