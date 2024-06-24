@@ -1,22 +1,14 @@
 {
-    "routes": [
-      { "src": "/", "dest": "/" },
-      { "src": "/dashboard", "dest": "/" },
-      { "src": "/create-account", "dest": "/" },
-      { "src": "/log-in-account", "dest": "/" },
-      { "src": "/account-settings", "dest": "/" },
-      { "src": "/budget", "dest": "/" },
-      { "src": "/savings", "dest": "/" },
-      { "src": "/financial-goals", "dest": "/" },
-      { "src": "/debt", "dest": "/" },
-      { "src": "/variable-expenses", "dest": "/" },
-      { "src": "/fixed-expenses", "dest": "/" },
-      { "src": "/income", "dest": "/" },
-      { "src": "/disposable-income", "dest": "/" },
-      { "src": "/exchange-rate", "dest": "/" },
-      { "src": "/personal-trader", "dest": "/" },
-      { "src": "/home-broker", "dest": "/" },
-      { "src": "/premium-plan", "dest": "/" },
-      { "src": "/contact-us", "dest": "/" }
-    ]
+  "routes": [
+    { "src": "/", "dest": "/" },
+    { "src": "/dashboard", "dest": "/" },
+    { "src": "/create-account", "dest": "/" },
+    { "src": "/log-in-account", "dest": "/" },
+    { "src": "/account-settings", "dest": "/" },
+    { "src": "/savings", "dest": "/" },
+    { "src": "/financial-goals", "dest": "/" },
+    { "src": "/debt", "dest": "/" },
+    { "src": "/premium-plan", "dest": "/" },
+    { "src": "/contact-us", "dest": "/" }
+  ]
 }

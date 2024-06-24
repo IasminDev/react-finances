@@ -16,17 +16,9 @@ import { PencilIcon, Trash2Icon } from "lucide-react";
 import { Delete } from "../../components/popout/delete";
 import { Edit } from "../../components/popout/edit";
 import { useNavigate } from "react-router-dom";
-import { DecodedToken } from "../../pages/financial-planning/savings";
+import { DecodedToken, Goal } from "../../types/type";
 import { api } from "../../lib/server";
 import { jwtDecode } from "jwt-decode";
-
-
-export interface Goal {
-  id: number;
-  description: string;
-  value: number;
-  date: string;
-}
 
 export function FinancialGoals() {
   const user = localStorage.getItem("user") as string | null;
@@ -49,31 +41,29 @@ export function FinancialGoals() {
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
 
-  useEffect(()=>{
-    if(user){
-      if(userId){
+  useEffect(() => {
+    if (user) {
+      if (userId) {
         api
-        .get(`/${userId}/goals`,{
-          headers: {token: `Bearer ${user}`},
-        })
-        .then(function (response){
-          return response.data;
-        })
-        .then((data) => {
-          setGoals(data.goals);
-        })
-        .catch(function (error) {
-          console.log("Error fetching goals", error);
-        });
+          .get(`/${userId}/goals`, {
+            headers: { token: `Bearer ${user}` },
+          })
+          .then(function (response) {
+            return response.data;
+          })
+          .then((data) => {
+            setGoals(data.goals);
+          })
+          .catch(function (error) {
+            console.log("Error fetching goals", error);
+          });
       }
+    } else {
+      navigate("/log-in-account");
     }
-    else{
-     navigate("/log-in-account");
-    }
-  }, [user, userId, navigate, goals])
+  }, [user, userId, navigate, goals]);
 
   const handleInsert = () => {
-    
     if (user) {
       if (!description) {
         setInfoDesc("Please enter a description");
@@ -94,39 +84,39 @@ export function FinancialGoals() {
         setInfoDate("");
       }
       try {
-        if(userId){
+        if (userId) {
           api
-          .post(
-          `/${userId}/goals`,
-          {
-            description,
-            value,
-            date: new Date(date).toISOString(),
-          },
-          {
-            headers: { token: `Bearer ${user}` },
-          }
-          )
-          .then(function (response) {
-            console.log(response);
+            .post(
+              `/${userId}/goals`,
+              {
+                description,
+                value,
+                date: new Date(date).toISOString(),
+              },
+              {
+                headers: { token: `Bearer ${user}` },
+              }
+            )
+            .then(function (response) {
+              console.log(response);
 
-            const newGoal: Goal = {
-              id: response.data.id,
-              description,
-              value,
-              date,
-            };
-      
-            setGoals([...goals, newGoal]);
-            setDescription("");
-            setValue("");
-            setDate("");
-            setInfoDesc("");
-            setInfoValue("");
-          })
-          .catch(function (error) {
-            console.log("Error fetching goals:", error);
-          });
+              const newGoal: Goal = {
+                id: response.data.id,
+                description,
+                value,
+                date,
+              };
+
+              setGoals([...goals, newGoal]);
+              setDescription("");
+              setValue("");
+              setDate("");
+              setInfoDesc("");
+              setInfoValue("");
+            })
+            .catch(function (error) {
+              console.log("Error fetching goals:", error);
+            });
         }
       } catch (error) {
         console.log("Error decoding token:", error);

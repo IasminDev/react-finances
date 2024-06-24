@@ -22,14 +22,14 @@ export function Home() {
     <div className="flex flex-col w-full">
       <Header />
       <div className="flex flex-col flex-wrap items-center justify-center w-full">
-        <div className="h-full flex items-center justify-center">
+        <div className="h-full w-auto flex items-center justify-center">
           <img
             className="mt-20 w-full h-auto object-cover relative z-[-1] opacity-20"
             src={headerBg}
             alt="home-background"
           />
 
-          <div className="mt-24 absolute h-full flex flex-col z-[0] justify-center items-center sm:flex-row md:m-0">
+          <div className="mt-24 absolute flex flex-col z-[0] justify-center items-center sm:flex-row md:flex-row md:mt-0">
             <div className="flex items-center justify-center gap-3 sm:flex-col">
               <img
                 className="w-10 h-10 sm:w-20 sm:h-20 md:h-60 md:w-60"
@@ -54,8 +54,8 @@ export function Home() {
           </div>
         </div>
 
-        <main className="flex flex-col flex-wrap items-center gap-2">
-          <p className="flex text-md p-4 text-center w-60 sm:w-96  md:w-[600px] lg:w-[1000px]">
+        <main className="flex flex-col flex-wrap w-full items-center gap-2">
+          <p className="flex text-md p-4 w-80 text-justify sm:w-[600px] lg:w-[1000px]">
             In today's fast-paced world, managing your finances efficiently is
             essential to achieving your goals and ensuring a healthy financial
             future. Aurea has been developed with the aim of simplifying this
@@ -101,12 +101,12 @@ export function Home() {
           </section>
 
           <h3 className="text-lg p-4 text-center underline">Exclusive Plans</h3>
-          <p className="text-md text-center w-60 sm:w-96  md:w-[600px] lg:w-[1000px]">
+          <p className="text-md text-center w-80 sm:w-96  md:w-[600px] lg:w-[1000px]">
             For users who want to explore the full potential of Aurea, we offer
             exclusive plans with advanced features:
           </p>
 
-          <section className="flex flex-col flex-wrap sm:flex-row gap-4 p-2 items-center justify-center lg:items-start">
+          <section className="flex flex-col flex-wrap gap-4 p-2 items-center justify-center sm:flex-row lg:items-start">
             <div
               className={`text-center items-center w-80 flex flex-col flex-wrap p-2 gap-3 ${
                 showBasic ? "border" : " "
@@ -209,8 +209,8 @@ export function Home() {
             Why Choose Aurea?
           </h3>
           <section className="flex flex-wrap gap-4 p-2 justify-center items-center">
-            <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-4 border border-slate-400/10 md:w-[600px] lg:w-full">
-              <div className="flex items-center justify-center">
+            <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-4 border border-slate-400/10 w-80 md:w-[600px] lg:w-full">
+              <div className="flex items-center justify-center w-80">
                 <img
                   className="w-64 h-64"
                   src={financialPlanning}
@@ -220,7 +220,7 @@ export function Home() {
               <div className="flex justify-center md:hidden">
                 <hr className="w-60 mt-3 border-white/10" />
               </div>
-              <ul className="flex flex-col justify-center w-96 md:w-[600px] gap-8 p-4">
+              <ul className="flex flex-col justify-center w-80 md:w-[600px] gap-8 p-4">
                 <li>
                   <strong className="text-sky-700">Intuitive Interface:</strong>{" "}
                   An easy-to-use platform designed to simplify financial
@@ -239,14 +239,15 @@ export function Home() {
             </div>
           </section>
 
-          <p className="text-md p-4 text-center w-60 sm:w-96  md:w-[600px] lg:w-[1000px]">
+          <p className="flex text-md p-4 w-80 text-justify sm:w-[600px] lg:w-[1000px]">
             Aurea is not just a financial management system; it's your partner
             on the journey to a safer and more successful financial future.
             Subscribe to one of our exclusive plans and start transforming your
             finances today!
           </p>
         </main>
-        <footer className="p-6 border-t border-slate-400/50 text-center">
+        <hr className="w-60 mt-3 border-white/10 md:w-[600px]" />
+        <footer className="p-6 text-center">
           <NavLink href="/create-account">
             Try Aurea and discover how simple and efficient it is to manage your
             finances intelligently.

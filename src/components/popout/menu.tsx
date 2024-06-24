@@ -21,8 +21,7 @@ export function Menu({transparent} : MenuProps){
                     transparent ? 'hidden' : 'flex')}>
                 <div className='flex flex-col p-2 gap-2 leading-8'>
 
-                    <MenuSection>Financial Planning</MenuSection>
-                    {/* <NavLink href='/budget'>Budget</NavLink> */}                    
+                    <MenuSection>Financial Planning</MenuSection>             
                     <NavLink onClick={() => {if(user){navigate("/financial-goals")} else{navigate("/log-in-account")}}}>
                     <CoinsIcon className="h-4 w-4"/> Financial Goals</NavLink>
 
@@ -33,17 +32,8 @@ export function Menu({transparent} : MenuProps){
                     <MenuSection>Expenses</MenuSection>
                     <NavLink onClick={() => {if(user){navigate("/debt")} else{navigate("/log-in-account")}}}>
                     <TrendingDownIcon className="h-4 w-4"/>Debt</NavLink>
-                    {/* <NavLink href='/variable-expenses'>Variable Expenses</NavLink>
-                    <NavLink href='/fixed-expenses'>Fixed Expenses</NavLink>
-
-                    <MenuSection>Income</MenuSection>
-                    <NavLink href='/income'>Income</NavLink>
-                    <NavLink href='/disposable-income'>Disposable Income</NavLink> */}
 
                     <MenuSection>Helping You</MenuSection>
-                    {/* <NavLink href='/exchange-rate'>Exchange Rate</NavLink>
-                    <NavLink href='/personal-trader'>Personal Trader</NavLink>
-                    <NavLink href='/home-broker'>Home Broker</NavLink> */}
                     <NavLink href='/premium-plan'><GemIcon className="h-4 w-4"/>Be Premium</NavLink>
                     <NavLink href='/contact-us'><MonitorSmartphoneIcon className="h-4 w-4"/> Contact Us</NavLink>
                 </div>
