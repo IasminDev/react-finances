@@ -13,8 +13,7 @@ import { Input } from "../ui/input";
 import { api } from "../../lib/server";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { Transaction } from "../../pages/financial-planning/savings";
-import { Goal } from "../../pages/financial-planning/financial-goals";
+import { Transaction, Goal } from "../../types/type";
 
 dayjs.extend(utc);
 
@@ -52,15 +51,11 @@ export function Edit({
   const [description, setDescription] = useState(
     transaction?.description || goal?.description || ""
   );
-  const [value, setValue] = useState(
-    goal?.value || ""
-  );
+  const [value, setValue] = useState(goal?.value || "");
   const [amount, setAmount] = useState<string | number>(
     transaction?.amount || ""
   );
-  const [date, setDate] = useState(
-    transaction?.date || goal?.date || ""
-  );
+  const [date, setDate] = useState(transaction?.date || goal?.date || "");
   const { select, setSelect } = useSelectContext();
 
   useEffect(() => {
@@ -97,8 +92,7 @@ export function Edit({
         .catch((error) => {
           console.error("Error updating transaction:", error);
         });
-    }
-    else if (debts) {
+    } else if (debts) {
       const formatDateForBackend = (date: string): string => {
         const formattedDate = dayjs(date).utc().format();
         return formattedDate;
@@ -125,8 +119,7 @@ export function Edit({
         .catch((error) => {
           console.error("Error updating transaction:", error);
         });
-    }
-    else if (goals) {
+    } else if (goals) {
       const formatDateForBackend = (date: string): string => {
         const formattedDate = dayjs(date).utc().format();
         return formattedDate;
@@ -184,13 +177,13 @@ export function Edit({
               type="number"
               id="amount"
               placeholder="Amount"
-              value={amount.toString()||value.toString()}
+              value={amount.toString() || value.toString()}
               onChange={(e) => {
-                if(savings || debts){
+                if (savings || debts) {
                   const newAmount = parseFloat(e.target.value);
                   setAmount(isNaN(newAmount) ? "" : newAmount);
                 }
-                if(goals){
+                if (goals) {
                   const newValue = parseFloat(e.target.value);
                   setValue(isNaN(newValue) ? "" : newValue);
                 }

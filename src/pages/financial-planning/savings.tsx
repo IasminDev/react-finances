@@ -21,18 +21,8 @@ import { PencilIcon, Trash2Icon } from "lucide-react";
 import { Delete } from "../../components/popout/delete";
 import { Edit } from "../../components/popout/edit";
 import { useNavigate } from "react-router-dom";
+import { DecodedToken, Transaction } from "../../types/type";
 
-export interface Transaction {
-  id: number;
-  description: string;
-  amount: number;
-  status: string;
-  date: string;
-}
-export interface DecodedToken {
-  id: string | null;
-  token: string;
-}
 export function Savings() {
   const user = localStorage.getItem("user") as string | null;
   const decoded: DecodedToken = user

@@ -1,6 +1,5 @@
 import { BurgerMenu } from './burger-menu'
 import { Logo } from './logo'
-// import { Notification } from './notification'
 import { Login } from './login'
 
 export function Header(){
@@ -11,7 +10,6 @@ export function Header(){
                 <Logo/>
             </div>
             <div className='flex items-center justify-end gap-1 px-5'>
-                {/* <Notification/> */}
                 <Login/>
             </div>
         </div>

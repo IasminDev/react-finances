@@ -21,8 +21,7 @@ import { Delete } from "../../components/popout/delete";
 import { Edit } from "../../components/popout/edit";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../lib/server";
-import { Transaction } from "../../pages/financial-planning/savings";
-import { DecodedToken } from "../../pages/financial-planning/savings";
+import { DecodedToken, Transaction } from "../../types/type";
 
 export function Debt() {
   const user = localStorage.getItem("user") as string | null;
@@ -352,14 +351,14 @@ export function Debt() {
                   </IconButton>
                   {modal && modalIndex === index && (
                     <Edit
-                    debts={true}
-                    debtId={transaction.id}
-                    userId={userId || undefined}
-                    userToken={user || undefined}
-                    transaction={transactions[modalIndex] || undefined}
-                    selectValue={select}
-                    openEdit={openEdit}
-                    setOpenEditProps={setOpenEdit}
+                      debts={true}
+                      debtId={transaction.id}
+                      userId={userId || undefined}
+                      userToken={user || undefined}
+                      transaction={transactions[modalIndex] || undefined}
+                      selectValue={select}
+                      openEdit={openEdit}
+                      setOpenEditProps={setOpenEdit}
                     />
                   )}
                   <IconButton>
